@@ -1,0 +1,146 @@
+<template>
+    <div class="d-flex flex-column flex-shrink-0 p-3 bg-light sidebar">
+        <ul class="nav nav-pills flex-column mb-auto">
+            <li class="nav-item">
+                <router-link to="/dashboard" aria-current="page"
+                    :class="{ 'nav-link link-dark text': true, 'active': isActive('/dashboard') }"
+                    active-class="active">
+                    <i class="fa-solid fa-house common-icon"></i>
+                    Dashboard
+                </router-link>
+            </li>
+            <li class="nav-item" v-if="profile.role === 'Admin'">
+                <router-link to="/users" aria-current="page"
+                    :class="{ 'nav-link link-dark text': true, 'active': isActive('/users') || isActive('/create-users') }"
+                    active-class="active">
+                    <i class="fa-solid fa-user common-icon"></i>
+                    Users
+                </router-link>
+            </li>
+            <li class="nav-item" v-if="profile.role === 'Admin'">
+                <router-link to="/service" aria-current="page"
+                    :class="{ 'nav-link link-dark text': true, 'active': isActive('/service') || isActive('/create-service') }"
+                    active-class="active">
+                    <i class="fa-solid fa-bell-concierge common-icon"></i>
+                    Services
+                </router-link>
+            </li>
+            <li>
+                <router-link to="/projects"
+                    :class="{ 'nav-link link-dark text': true, 'active': isActive('/projects') || isActive('/create-project') }"
+                    active-class="active">
+                    <i class="fas fa-project-diagram common-icon"></i>
+                    Projects
+                </router-link>
+            </li>
+            <li>
+                <router-link to="/milestones" v-if="profile.role !== 'Team-Member'"
+                    :class="{ 'nav-link link-dark text': true, 'active': isActive('/milestones') || isActive('/create-milestones') }"
+                    active-class="active">
+                    <i class="fa-solid fa-file-lines common-icon"></i>
+                    Milestones
+                </router-link>
+            </li>
+            <li>
+                <router-link to="/tasks"
+                    :class="{ 'nav-link link-dark text': true, 'active': isActive('/tasks') || isActive('/create-tasks') }"
+                    active-class="active">
+                    <i class="fa-solid fa-list-check common-icon"></i>
+                    Tasks
+                </router-link>
+            </li>
+            <li>
+                <router-link to="/notification"
+                    :class="{ 'nav-link link-dark text': true, 'active': isActive('/notification') || isActive('/create-notification') }"
+                    active-class="active">
+                    <i class="fa-solid fa-bell common-icon"></i>
+                    Notifications
+                </router-link>
+            </li>
+            <li>
+                <router-link to="/profile-user" :class="{ 'nav-link link-dark text': true, 'active': isActive('/profile-user') }"
+                    active-class="active">
+                    <i class="fa-solid fa-address-card common-icon"></i>
+                    Profile
+                </router-link>
+            </li>
+            <li>
+                <a href="#" class="nav-link link-dark text"  @click="logoutUser">
+                    <i class="fa-solid fa-right-from-bracket common-icon"></i>
+                    Logout
+                </a>
+            </li>
+        </ul>
+        <hr>
+        <div class="dropdown">
+            <a href="#" class="d-flex align-items-center link-dark text-decoration-none dropdown-toggle"
+                id="dropdownUser2" data-bs-toggle="dropdown" aria-expanded="false">
+                <img src="https://github.com/mdo.png" alt="" width="32" height="32" class="rounded-circle me-2">
+                <strong>mdo</strong>
+            </a>
+            <ul class="dropdown-menu text-small shadow" aria-labelledby="dropdownUser2">
+                <li><a class="dropdown-item" href="#">New project...</a></li>
+                <li><a class="dropdown-item" href="#">Settings</a></li>
+                <li><a class="dropdown-item" href="#">Profile</a></li>
+                <li>
+                    <hr class="dropdown-divider">
+                </li>
+                <li><a class="dropdown-item" href="#" @click="logoutUser">Sign out</a></li>
+            </ul>
+        </div>
+    </div>
+</template>
+
+<script>
+import { mapActions, mapState } from 'vuex';
+export default {
+    methods: {
+        ...mapActions('auth', ['logout', 'fetchloginUser']),
+        isActive(route) {
+            const path = this.$route.path;
+            const basePath = route.split('/').filter(part => !part.startsWith(':')).join('/');
+            console.log(`Checking if ${path} starts with ${basePath}`);
+            return path.startsWith(basePath);
+        },
+        logoutUser() {
+            this.logout();
+            this.$router.push('/');
+        },
+    },
+
+    computed: {
+        ...mapState('auth', ['profile', 'profileLoading'])
+    },
+
+    mounted(){
+        this.fetchloginUser();
+    }
+}
+</script>
+
+<style scoped>
+.text {
+    color: #303030;
+    font-size: 0.9rem;
+    font-weight: 700;
+}
+
+.sidebar {
+    height: 91vh;
+    width: 100%;
+    background-color: #e9edf1 !important;
+}
+
+.common-icon {
+    width: 20px;
+}
+
+.active {
+    background-color: #99519e !important;
+    /* margin-bottom: 7px !important; */
+}
+
+.active:hover {
+    background-color: #7654a2 !important;
+}
+</style>
