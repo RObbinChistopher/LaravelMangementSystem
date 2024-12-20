@@ -1,10 +1,10 @@
 <template>
     <div class="container extra-class-container" style="margin: 1.5rem 0px !important">
         <div class="row">
-            <div class="col-md-4 col-6 header-col">
+            <div class="col-md-4 col-12 header-col">
                 <h3 class="heading">All Services</h3>
             </div>
-            <div class="col-md-8 col-6">
+            <div class="col-md-8 col-12 add-bth-filter">
                 <div class="btn-text m-0 add-new-cat " style="display: flex; justify-content: flex-end; gap: 15px;">
                     <div class="service-detail text" v-if="currentSerivce">
                         Services Filtered By: {{ getServiceDisplayName(currentSerivce) }}
@@ -74,7 +74,8 @@
                 </div>
                 <div class="col-md-6 col-12 right-side-search mb-2">
                     <div class="search-input position-relative">
-                        <input type="text" class="form-control" placeholder="Search by Client Name or Email, Package, Srevices" v-model="searchQuery"
+                        <input type="text" class="form-control"
+                            placeholder="Search by Client Name or Email, Package, Srevices" v-model="searchQuery"
                             @input="debouncedAreaSearchWord" />
                         <i class="fa fa-search position-absolute search-icon"></i>
                     </div>
@@ -342,6 +343,11 @@ export default {
 
     .heading {
         padding-left: 10px;
+        margin-bottom: 1rem;
+    }
+
+    .add-bth-filter {
+        margin-bottom: 1rem;
     }
 
     .extra-class-container {

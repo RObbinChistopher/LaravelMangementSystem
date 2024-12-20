@@ -2,7 +2,7 @@
     <div class="container extra-class-container" style="margin: 1.5rem 0px !important">
         <div class="row">
             <div class="col-md-4 col-6 header-col">
-                <h3 class="heading">All Users</h3>
+                <h3 class="heading">All Team Member</h3>
             </div>
             <div class="col-md-8 col-6">
                 <div class="btn-text m-0 add-new-cat " style="display: flex; justify-content: flex-end;">
@@ -157,9 +157,9 @@ export default {
         // Conditional pagination method
         conditionalPagination(pageNumber) {
             if (this.currentrole) {
-                this.fetchAllBusinessByAdvanceFilttle({ role: this.currentrole, page_number: pageNumber });
+                this.FilterByUserRole({ role: this.currentrole, page_number: pageNumber });
             } else {
-                this.fetchAllBusiness(pageNumber);
+                this.fetchAllUsers(pageNumber);
             }
         },
         async FilterOfUserRole(items) {

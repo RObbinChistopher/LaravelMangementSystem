@@ -35,22 +35,22 @@ class ServiceController extends Controller
         }
         $service->starting_date = $startingDate->format('Y-m-d');
         switch ($request->package) {
-            case '1-week':
+            case '1week':
                 $endingDate = $startingDate->addWeek();
                 break;
-            case '3-week':
+            case '3week':
                 $endingDate = $startingDate->addWeeks(3);
                 break;
-            case '1-month':
+            case '1month':
                 $endingDate = $startingDate->addMonth();
                 break;
-            case '3-month':
+            case '3month':
                 $endingDate = $startingDate->addMonths(3);
                 break;
-            case '6-month':
+            case '6month':
                 $endingDate = $startingDate->addMonths(6);
                 break;
-            case '1-year':
+            case '1year':
                 $endingDate = $startingDate->addYear();
                 break;
             default:
@@ -103,22 +103,22 @@ class ServiceController extends Controller
         $service->starting_date = $startingDate->format('Y-m-d');
 
         switch ($request->package) {
-            case '1-week':
+            case '1week':
                 $endingDate = $startingDate->addWeek();
                 break;
-            case '3-week':
+            case '3week':
                 $endingDate = $startingDate->addWeeks(3);
                 break;
-            case '1-month':
+            case '1month':
                 $endingDate = $startingDate->addMonth();
                 break;
-            case '3-month':
+            case '3month':
                 $endingDate = $startingDate->addMonths(3);
                 break;
-            case '6-month':
+            case '6month':
                 $endingDate = $startingDate->addMonths(6);
                 break;
-            case '1-year':
+            case '1year':
                 $endingDate = $startingDate->addYear();
                 break;
             default:
@@ -214,12 +214,12 @@ class ServiceController extends Controller
         $services = Service::where('payment_status', 'pending')
             ->where(function ($query) use ($currentDate) {
                 $query->where(function ($subQuery) use ($currentDate) {
-                    $subQuery->where('package', '1-week')
+                    $subQuery->where('package', '1week')
                         ->whereDate('ending_date', '>=', $currentDate->toDateString())
                         ->whereDate('ending_date', '<=', $currentDate->copy()->addDays(3)->toDateString());
                 })
                     ->orWhere(function ($subQuery) use ($currentDate) {
-                        $subQuery->where('package', '!=', '1-week')
+                        $subQuery->where('package', '!=', '1week')
                             ->whereDate('ending_date', '>=', $currentDate->toDateString())
                             ->whereDate('ending_date', '<=', $currentDate->copy()->addDays(7)->toDateString());
                     });

@@ -33,45 +33,58 @@ import dashboard from './components/Dashboard/show.vue'
 import service from './components/Services/show.vue'
 import createService from './components/Services/create.vue';
 import invoice from './components/Services/invoice.vue';
+
+// unauthorized
+import showUnauthorized from './components/unauthoriz/show.vue'
+
+
+
 const routes = [
     { path: '/', component: Login, name: 'Login', meta: { showHeader: false, showSlideBar: false, meta: { requiresAuth: false } } },
     // users
-    { path: '/users', component: users, name: 'users' },
-    { path: '/create-users', component: createUsers, name: 'createUsers' },
-    { path: '/edit-users/:id', component: createUsers, name: 'editUsers' },
+    { path: '/users', component: users, name: 'users', meta: { requiresAuth: true, requiresRole: 'Admin' } },
+    { path: '/create-users', component: createUsers, name: 'createUsers', meta: { requiresAuth: true, requiresRole: 'Admin' } },
+    { path: '/edit-users/:id', component: createUsers, name: 'editUsers', meta: { requiresAuth: true, requiresRole: 'Admin' } },
 
     // project 
-    { path: '/projects', component: showProject, name: 'showProject' },
-    { path: '/create-project', component: createProject, name: 'createProject' },
-    { path: '/edit-project/:id', component: createProject, name: 'editProject' },
+    { path: '/projects', component: showProject, name: 'showProject', meta: { requiresAuth: true, } },
+    { path: '/create-project', component: createProject, name: 'createProject', meta: { requiresAuth: true, requiresRoles: ['Admin', 'Project-Manager'] } },
+    { path: '/edit-project/:id', component: createProject, name: 'editProject', meta: { requiresAuth: true, requiresRoles: ['Admin', 'Project-Manager'] } },
 
     //  Milestones 
-    { path: '/milestones', component: showMilestones, name: 'showMilestones' },
-    { path: '/create-milestones', component: createMilestones, name: 'createMilestones' },
-    { path: '/edit-milestones/:id', component: createMilestones, name: 'editMilestones' },
+    { path: '/milestones', component: showMilestones, name: 'showMilestones',  meta: { requiresAuth: true, requiresRole: ['Project-Manager', 'Admin']} },
+    { path: '/create-milestones', component: createMilestones, name: 'createMilestones', meta: { requiresAuth: true, requiresRole: ['Project-Manager', 'Admin']} },
+    { path: '/edit-milestones/:id', component: createMilestones, name: 'editMilestones', meta: { requiresAuth: true, requiresRole: ['Project-Manager', 'Admin']} },
 
     // tasks
-    { path: '/tasks', component: showTasks, name: 'showTasks' },
-    { path: '/create-tasks', component: createTasks, name: 'createTasks' },
-    { path: '/edit-tasks/:id', component: createTasks, name: 'editTasks' },
+    { path: '/tasks', component: showTasks, name: 'showTasks', meta: { requiresAuth: true, } },
+    { path: '/create-tasks', component: createTasks, name: 'createTasks', meta: { requiresAuth: true, requiresRole: ['Project-Manager', 'Admin']} },
+    { path: '/edit-tasks/:id', component: createTasks, name: 'editTasks', meta: { requiresAuth: true, requiresRole: ['Project-Manager', 'Admin']} },
 
     // Notification 
-    { path: '/notification', component: showNotification, name: 'showNotification' },
-    { path: '/create-notification', component: createNotification, name: 'createNotification' },
-    { path: '/edit-notificatio/:id', component: createNotification, name: 'editNotification' },
+    { path: '/notification', component: showNotification, name: 'showNotification', meta: { requiresAuth: true, } },
+    { path: '/create-notification', component: createNotification, name: 'createNotification', meta: { requiresAuth: true, requiresRole: ['Project-Manager', 'Admin']} },
+    { path: '/edit-notificatio/:id', component: createNotification, name: 'editNotification', meta: { requiresAuth: true, requiresRole: ['Project-Manager', 'Admin']} },
 
     // profile
-    { path: '/profile-user', component: profile, name: 'profile' },
+    { path: '/profile-user', component: profile, name: 'profile', meta: { requiresAuth: true, } },
 
     // dashboard
-    { path: '/dashboard', component: dashboard, name: 'dashboard' },
+    { path: '/dashboard', component: dashboard, name: 'dashboard', meta: { requiresAuth: true } },
 
 
     // service
-    { path: '/service', component: service, name: 'service' },
-    { path: '/create-service', component: createService, name: 'createService' },
-    { path: '/edit-service/:id', component: createService, name: 'editService' },
-    { path: '/download-service-invoice/:id', component: invoice, name: 'invoice' },
+    { path: '/service', component: service, name: 'service', meta: { requiresAuth: true, requiresRole: 'Admin' } },
+    { path: '/create-service', component: createService, name: 'createService', meta: { requiresAuth: true, requiresRole: 'Admin' } },
+    { path: '/edit-service/:id', component: createService, name: 'editService', meta: { requiresAuth: true, requiresRole: 'Admin' } },
+    { path: '/download-service-invoice/:id', component: invoice, name: 'invoice', meta: { requiresAuth: true, requiresRole: 'Admin' } },
+
+
+
+
+    { path: '/Unauthorized', component: showUnauthorized, name: 'showUnauthorized', meta: { showHeader: false, showSlideBar: false, requiresAuth: true } },
+
+
 ];
 
 

@@ -17,7 +17,7 @@ return new class extends Migration
             $table->integer('projectId');
             $table->date('deadline');
             $table->string('status')->default('progress');
-            $table->longText('description');
+            $table->longText('description')->nullable();
             $table->timestamps();
         });
     }

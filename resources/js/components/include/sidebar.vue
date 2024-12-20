@@ -14,7 +14,7 @@
                     :class="{ 'nav-link link-dark text': true, 'active': isActive('/users') || isActive('/create-users') }"
                     active-class="active">
                     <i class="fa-solid fa-user common-icon"></i>
-                    Users
+                    Team Member
                 </router-link>
             </li>
             <li class="nav-item" v-if="profile.role === 'Admin'">
@@ -33,8 +33,8 @@
                     Projects
                 </router-link>
             </li>
-            <li>
-                <router-link to="/milestones" v-if="profile.role !== 'Team-Member'"
+            <li v-if="profile.role !== 'Team-Member'">
+                <router-link to="/milestones"
                     :class="{ 'nav-link link-dark text': true, 'active': isActive('/milestones') || isActive('/create-milestones') }"
                     active-class="active">
                     <i class="fa-solid fa-file-lines common-icon"></i>
@@ -71,8 +71,8 @@
                 </a>
             </li>
         </ul>
-        <hr>
-        <div class="dropdown">
+        <!-- <hr> -->
+        <!-- <div class="dropdown">
             <a href="#" class="d-flex align-items-center link-dark text-decoration-none dropdown-toggle"
                 id="dropdownUser2" data-bs-toggle="dropdown" aria-expanded="false">
                 <img src="https://github.com/mdo.png" alt="" width="32" height="32" class="rounded-circle me-2">
@@ -87,7 +87,7 @@
                 </li>
                 <li><a class="dropdown-item" href="#" @click="logoutUser">Sign out</a></li>
             </ul>
-        </div>
+        </div> -->
     </div>
 </template>
 

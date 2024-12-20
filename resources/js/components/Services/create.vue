@@ -72,12 +72,12 @@
                                     <select class="form-control form-select" id="licenseType" v-model="from.package"
                                         :class="{ 'is-invalid': errors.includes('Package Selection Is Required') }">
                                         <option value="" class="text2">Select a Client Package</option>
-                                        <option value="1-week" class="text2">Weekly Package (1 Week)</option>
-                                        <option value="3-week" class="text2">3 Weekly Package (3 Week)</option>
-                                        <option value="1-month" class="text2">Monthly Package (1 Month)</option>
-                                        <option value="3-month" class="text2">Quarterly Package (3 Months)</option>
-                                        <option value="6-month" class="text2">Half-Yearly Package (6 Months)</option>
-                                        <option value="1-year" class="text2">Yearly Package (1 Year)</option>
+                                        <option value="1week" class="text2">Weekly Package (1 Week)</option>
+                                        <option value="3week" class="text2">3 Weekly Package (3 Week)</option>
+                                        <option value="1month" class="text2">Monthly Package (1 Month)</option>
+                                        <option value="3month" class="text2">Quarterly Package (3 Months)</option>
+                                        <option value="6month" class="text2">Half-Yearly Package (6 Months)</option>
+                                        <option value="1year" class="text2">Yearly Package (1 Year)</option>
                                     </select>
 
                                     <span v-if="errors.includes('Package Selection Is Required')"

@@ -91,7 +91,11 @@
                 <div class="description">
                     <div class="text-center">Thank you for your business!</div>
                 </div>
-                <button @click="downloadInvoice">Download Invoice as PDF</button>
+                <button @click="downloadInvoice" :disabled="loading">
+                    <span v-if="!loading">Download Invoice as PDF</span>
+                    <span v-else class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                    <span class="visually-hidden">Loading...</span>
+                </button>
             </div>
         </div>
     </div>
@@ -108,10 +112,16 @@ import { toast } from 'vue3-toastify';
 import 'vue3-toastify/dist/index.css';
 export default {
     components: { QuillEditor },
+    data() {
+        return {
+            loading: false, // Tracks the loading state
+        };
+    },
     methods: {
         ...mapActions('service', ['fetchSingleServices']),
         async downloadInvoice() {
             try {
+                this.loading = true;
                 const response = await axios.post('/download-service-invoice', {
                     client_name: this.singleService.client_name,
                     email: this.singleService.email,
@@ -135,8 +145,11 @@ export default {
                 document.body.appendChild(link);
                 link.click();
                 link.remove();
+                toast.success('Invoice Download Successfully');
             } catch (error) {
                 console.error("Error downloading invoice:", error);
+            } finally {
+                this.loading = false; // Stop loading
             }
         }
     },

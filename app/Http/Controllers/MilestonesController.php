@@ -15,7 +15,7 @@ class MilestonesController extends Controller
     }
     public function allMilestones()
     {
-        $milestones = Milestones::paginate(10);
+        $milestones = Milestones::orderBy('id', 'desc')->paginate(10);
         return MilestoneResource::collection($milestones);
     }
 
@@ -89,7 +89,7 @@ class MilestonesController extends Controller
             ->orWhere('projects.name', 'like', "%$query%")
             ->limit(9)
             ->get();
-    
+
         return MilestoneResource::collection($results);
     }
 }

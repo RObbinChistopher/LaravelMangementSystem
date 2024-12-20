@@ -5,7 +5,7 @@
                 <div class="row1">
                     <i class="fas fa-arrow-left"></i>
                     <h3 class="heading" v-if="this.$route.params.id">Edit User</h3>
-                    <h3 class="heading" v-else>Add User</h3>
+                    <h3 class="heading" v-else>Add Team Member</h3>
                 </div>
             </router-link>
             <div v-if="filteredErrors.length" class="alert alert-danger">
@@ -53,24 +53,41 @@
                         </div>
 
                         <!-- password selection -->
+
                         <div class="parent-accordion p-3 mb-3" id="password-accordion" v-if="!this.$route.params.id">
                             <div class="mb-2">
                                 <label for="password" class="form-label text">Password*</label>
-                                <input type="password" class="form-control" id="password" v-model="from.password"
-                                    :class="{ 'is-invalid': errors.includes('Your Password Is Required') }"
-                                    placeholder="Password">
-                                <span v-if="errors.includes('Your Password Is Required')" class="invalid-feedback">Your
-                                    Password Is Required</span>
+                                <div class="input-group">
+                                    <input :type="showPassword ? 'text' : 'password'" class="form-control" id="password"
+                                        v-model="from.password"
+                                        :class="{ 'is-invalid': errors.includes('Your Password Is Required') }"
+                                        placeholder="Password" />
+                                    <span class="input-group-text" @click="togglePasswordVisibility">
+                                        <i :class="showPassword ? 'fa fa-eye-slash' : 'fa fa-eye'"></i>
+                                    </span>
+                                </div>
+                                <span v-if="errors.includes('Your Password Is Required')" class="invalid-feedback">
+                                    Your Password Is Required
+                                </span>
                             </div>
+
                             <div class="mb-2">
                                 <label for="confirmPassword" class="form-label text">Confirm password*</label>
-                                <input type="password" class="form-control" id="confirmPassword"
-                                    v-model="from.confirmPassword"
-                                    :class="{ 'is-invalid': errors.includes('Your Confirm password Is Required') }"
-                                    placeholder="Confirm password">
+                                <div class="input-group">
+                                    <input :type="showConfirmPassword ? 'text' : 'password'" class="form-control"
+                                        id="confirmPassword" v-model="from.confirmPassword"
+                                        :class="{ 'is-invalid': errors.includes('Your Confirm password Is Required') }"
+                                        placeholder="Confirm password" />
+                                    <span class="input-group-text" @click="toggleConfirmPasswordVisibility">
+                                        <i :class="showConfirmPassword ? 'fa fa-eye-slash' : 'fa fa-eye'"></i>
+                                    </span>
+                                </div>
                                 <span v-if="errors.includes('Your Confirm password Is Required')"
-                                    class="invalid-feedback">Your Confirm password Is Required</span>
+                                    class="invalid-feedback">
+                                    Your Confirm password Is Required
+                                </span>
                             </div>
+
                         </div>
 
                         <button type="submit" class="save-btn text">
@@ -103,42 +120,40 @@ export default {
                 email: "",
                 role: "",
                 password: "",
-                confirmPassword: "" // Added confirmPassword field
+                confirmPassword: ""
             },
             errors: [],
             loading: false,
+            showPassword: false,
+            showConfirmPassword: false
         };
     },
 
     methods: {
+        togglePasswordVisibility() {
+            this.showPassword = !this.showPassword;
+        },
+        toggleConfirmPasswordVisibility() {
+            this.showConfirmPassword = !this.showConfirmPassword;
+        },
         ...mapActions('auth', ['fetchSingleUsers']),
         async CreateUsers() {
-            // Clear previous errors
             this.errors = [];
-
-            // Validation
             if (!this.from.name) this.errors.push('Your User Name Is Required');
             if (!this.from.email) this.errors.push('Your Email Name Is Required');
             if (!this.from.role) this.errors.push('Your Role Is Required');
             if (!this.$route.params.id) {
                 if (!this.from.password) this.errors.push('Your Password Is Required');
                 if (!this.from.confirmPassword) this.errors.push('Confirm Password Is Required');
-
-                // Check if passwords match
                 if (this.from.password !== this.from.confirmPassword) {
                     this.errors.push('Passwords do not match');
                 }
             }
-
             if (this.errors.length > 0) {
-                // If there are validation errors, do not proceed
                 console.log("Validation errors:", this.errors);
                 return;
             }
-
-            // If no validation errors, proceed with the form submission
             this.loading = true;
-
             const formData = new FormData();
             formData.append('name', this.from.name);
             formData.append('email', this.from.email);

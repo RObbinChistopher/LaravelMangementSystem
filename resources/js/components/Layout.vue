@@ -1,10 +1,10 @@
 <template>
     <div class="row">
         <Header v-if="showHeader" />
-        <div class="col-md-2 p-0" v-if="showSlideBar">
+        <div class="col-md-3 p-0 col-lg-3 col-xl-2" v-if="showSlideBar">
             <Sidebar class="desktop-logo" />
         </div>
-        <div :class="{'col-md-10': showSlideBar, 'col-10': !showSlideBar, 'p-0': true, 'sroller': true, 'col-12' : true} ">
+        <div :class="{'col-md-9': showSlideBar, 'col-lg-9': showSlideBar,'col-xl-10': showSlideBar, 'col-sm-12': showSlideBar,'col-10': !showSlideBar, 'p-0': true, 'sroller': true, 'col-12' : true} ">
             <main>
                 <router-view></router-view>
             </main>

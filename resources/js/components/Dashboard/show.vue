@@ -24,9 +24,11 @@
                                         <p class="text">Urgent Milestones</p>
                                         <i class="fas fa-project-diagram text"></i>
                                     </div>
-                                    <p class="text mb-2" v-if="dashboard && dashboard.tasks && dashboard.tasks.urgent">
-                                        {{ dashboard.tasks.urgent }}
+                                    <p class="text mb-2"
+                                        v-if="dashboard && dashboard.tasks && dashboard.tasks.urgent !== undefined">
+                                        {{ dashboard.tasks.urgent || '0' }}
                                     </p>
+
 
                                 </div>
 
@@ -37,8 +39,8 @@
                                         <p class="text">Medium Milestones</p>
                                         <i class="fas fa-project-diagram text"></i>
                                     </div>
-                                    <p class="text mb-2" v-if="dashboard && dashboard.tasks && dashboard.tasks.medium">
-                                        {{ dashboard.tasks.medium }}</p>
+                                    <p class="text mb-2" v-if="dashboard && dashboard.tasks && dashboard.tasks.medium !== undefined">
+                                        {{ dashboard.tasks.medium || '0' }}</p>
                                 </div>
                             </div>
                             <div class="col-md-4 show-content-left-card common-class">
@@ -47,8 +49,8 @@
                                         <p class="text">Lower Milestones</p>
                                         <i class="fas fa-project-diagram text"></i>
                                     </div>
-                                    <p class="text mb-2" v-if="dashboard && dashboard.tasks && dashboard.tasks.lower">
-                                        {{ dashboard.tasks.lower }}</p>
+                                    <p class="text mb-2" v-if="dashboard && dashboard.tasks && dashboard.tasks.lower !== undefined">
+                                        {{ dashboard.tasks.lower || '0' }}</p>
                                 </div>
                             </div>
                         </div>
@@ -62,8 +64,8 @@
                                         <i class="fas fa-project-diagram text"></i>
                                     </div>
                                     <p class="text mb-2"
-                                        v-if="dashboard && dashboard.milestones && dashboard.milestones.complete">
-                                        {{ dashboard.milestones.complete }}</p>
+                                        v-if="dashboard && dashboard.milestones && dashboard.milestones.complete !== undefined">
+                                        {{ dashboard.milestones.complete || '0' }}</p>
                                 </div>
 
                             </div>
@@ -74,8 +76,8 @@
                                         <i class="fas fa-project-diagram text"></i>
                                     </div>
                                     <p class="text mb-2"
-                                        v-if="dashboard && dashboard.milestones && dashboard.milestones.progress">{{
-                                            dashboard.milestones.progress }}</p>
+                                        v-if="dashboard && dashboard.milestones && dashboard.milestones.progress !== undefined">{{
+                                            dashboard.milestones.progress || '0' }}</p>
                                 </div>
                             </div>
                             <div class="col-md-4 show-content-left-card common-class">
@@ -85,8 +87,8 @@
                                         <i class="fas fa-project-diagram text"></i>
                                     </div>
                                     <p class="text mb-2"
-                                        v-if="dashboard && dashboard.milestones && dashboard.milestones.incomplete">
-                                        {{ dashboard.milestones.incomplete }}</p>
+                                        v-if="dashboard && dashboard.milestones && dashboard.milestones.incomplete !== undefined">
+                                        {{ dashboard.milestones.incomplete || '0' }}</p>
                                 </div>
                             </div>
                         </div>

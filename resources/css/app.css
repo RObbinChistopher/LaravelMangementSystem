@@ -151,6 +151,27 @@ body {
     display: flex;
     justify-content: flex-end;
 }
+.status-filter {
+    overflow-x: auto; /* Enables horizontal scrolling */
+    white-space: nowrap; /* Prevents items from wrapping to the next line */
+    display: flex; /* Keeps items aligned in a row */
+    gap: 10px; /* Optional: Adds spacing between items */
+    scrollbar-width: thin; /* Optional: Makes the scrollbar thinner (Firefox) */
+    width: 100%;
+}
+
+.status-filter::-webkit-scrollbar {
+    height: 8px; /* Optional: Adjust scrollbar height */
+}
+
+.status-filter::-webkit-scrollbar-thumb {
+    background-color: #ccc; /* Optional: Style scrollbar thumb */
+    border-radius: 4px; /* Optional: Round scrollbar thumb edges */
+}
+
+.status-filter::-webkit-scrollbar-track {
+    background-color: #f1f1f1; /* Optional: Style scrollbar track */
+}
 
 @media screen and (max-width: 600px) {
     .main-container {

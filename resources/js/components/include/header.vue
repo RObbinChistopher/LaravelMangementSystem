@@ -20,15 +20,8 @@
                 <div class="sidebar">
                     <button class="close-btn">✕</button>
                     <img src="/images/logo.png" class="logo" alt="">
-
-                    <ul class="nav col-12 col-md-auto justify-content-center mb-md-0 search-input mb-3 mt-3">
-                        <div class="input-group flex-nowrap">
-                            <input type="text" class="form-control search-gobal text" placeholder="Search"
-                                aria-label="Username" aria-describedby="addon-wrapping">
-                        </div>
-                    </ul>
                     <ul class="nav nav-pills flex-column mb-auto mt-3">
-                        <li class="nav-item">
+                        <li>
                             <router-link to="/dashboard" aria-current="page"
                                 :class="{ 'nav-link link-dark text': true, 'active': isActive('/dashboard') }"
                                 active-class="active">
@@ -36,12 +29,20 @@
                                 Dashboard
                             </router-link>
                         </li>
-                        <li class="nav-item">
-                            <router-link to="/users" aria-current="page"
+                        <li>
+                            <router-link to="/users" aria-current="page" v-if="profile.role === 'Admin'"
                                 :class="{ 'nav-link link-dark text': true, 'active': isActive('/users') || isActive('/create-users') }"
                                 active-class="active">
                                 <i class="fa-solid fa-user common-icon"></i>
-                                Users
+                                Team Member
+                            </router-link>
+                        </li>
+                        <li >
+                            <router-link to="/service" aria-current="page" v-if="profile.role === 'Admin'"
+                                :class="{ 'nav-link link-dark text': true, 'active': isActive('/service') || isActive('/create-service') }"
+                                active-class="active">
+                                <i class="fa-solid fa-bell-concierge common-icon"></i>
+                                Services
                             </router-link>
                         </li>
                         <li>
@@ -52,8 +53,8 @@
                                 Projects
                             </router-link>
                         </li>
-                        <li>
-                            <router-link to="/milestones"
+                        <li v-if="profile.role !== 'Team-Member'">
+                            <router-link to="/milestones" 
                                 :class="{ 'nav-link link-dark text': true, 'active': isActive('/milestones') || isActive('/create-milestones') }"
                                 active-class="active">
                                 <i class="fa-solid fa-file-lines common-icon"></i>
@@ -97,36 +98,130 @@
 
 
             <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0 search-input desktop-logo">
-                <div class="input-group flex-nowrap">
-                    <input type="text" class="form-control search-gobal text" placeholder="Search" aria-label="Username"
-                        aria-describedby="addon-wrapping">
+                <div class="searchbar-wrapper" style="position: relative; width: 100%;">
+                    <div class="search-icon">
+                    </div>
+                    <input v-model="searchQuery" class="form-control search-gobal text" type="search" name="search"
+                        id="search" placeholder="Search" autocomplete="off" aria-label="Search" />
+
+                    <!-- Search Results Dropdown -->
+                    <div class="parent-accordion searchbar-wrapper2 " id="parent-accordion"
+                        v-if="searchQuery && filteredItems.length > 0">
+                        <ul class="search-results">
+                            <li v-for="item in filteredItems" :key="item" class="search-result-item"
+                                @click="navigateToPage(item)">
+                                {{ item }}
+                            </li>
+                        </ul>
+                        <p v-if="searchQuery && filteredItems.length === 0">No results found</p>
+                    </div>
                 </div>
             </ul>
 
+
+
             <div class="col-md-3 text-end mt-2" style="margin-right: 14px;">
-                <div class="btn-group">
-                    <button type="button" class="btn btn-danger dropdown-toggle text change-btn"
-                        data-bs-toggle="dropdown" aria-expanded="false">
-                        christopher
-                    </button>
-                    <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="#">Action</a></li>
+                <div class="dropdown profile-dropdown">
+                    <a href="#" class="d-flex align-items-center link-dark text-decoration-none dropdown-toggle"
+                        id="dropdownUser2" data-bs-toggle="dropdown" aria-expanded="false">
+                        <img :src="profile.profile ? profile.profile : '/images/ViceTech.png'" alt="" width="32"
+                            height="32" class="rounded-circle me-2" />
+                        <strong>{{ profile.name }}</strong>
+                    </a>
+                    <ul class="dropdown-menu text-small shadow header-dropDown" aria-labelledby="dropdownUser2">
+                        <li><router-link to="/profile-user" class="dropdown-item text" href="#"> <i
+                                    class="fa-solid fa-address-card profile-icon"></i>Profile</router-link></li>
+                        <li>
+                            <hr class="dropdown-divider profile-hr">
+                        </li>
+                        <li>
+                            <a class="dropdown-item d-flex flex-column text" href="#">
+                                <div class="d-flex"> <strong>{{ profile.name }} <span class="profile-email">({{
+                                    profile.role
+                                            }})</span></strong></div>
+                                <span class="profile-email">{{ profile.email }}</span>
+
+                            </a>
+                        </li>
+
+                        <li>
+                            <hr class="dropdown-divider profile-hr">
+                        </li>
+                        <li><a class="dropdown-item text" href="#" @click="logoutUser">
+                                <i class="fa-solid fa-right-from-bracket profile-icon"></i>Logout</a></li>
                     </ul>
                 </div>
+
             </div>
+
         </header>
     </div>
 </template>
 
 <script>
+import { mapActions, mapState } from 'vuex';
 export default {
+    data() {
+        return {
+            searchQuery: '',
+            items: ['Dashboard', 'Project', 'Team Member', 'Services', 'Milestones', 'Tasks', 'Notification', 'Pofile'],
+        };
+    },
     methods: {
+        ...mapActions('auth', ['logout']),
         isActive(route) {
             const path = this.$route.path;
             const basePath = route.split('/').filter(part => !part.startsWith(':')).join('/');
             console.log(`Checking if ${path} starts with ${basePath}`);
             return path.startsWith(basePath);
         },
+        logoutUser() {
+            this.logout();
+            this.$router.push('/');
+        },
+        navigateToPage(item) {
+            switch (item) {
+                case 'Dashboard':
+                    this.$router.push('/dashboard');
+                    break;
+                case 'Project':
+                    this.$router.push('/projects');
+                    break;
+                case 'Team Member':
+                    this.$router.push('/users');
+                    break;
+                case 'Services':
+                    this.$router.push('/service');
+                    break;
+                case 'Milestones':
+                    this.$router.push('/milestones');
+                    break;
+                case 'Tasks':
+                    this.$router.push('/tasks');
+                    break;
+                case 'Notification':
+                    this.$router.push('/notification');
+                    break;
+                case 'Pofile':
+                    this.$router.push('/profile-user');
+                    break;
+                default:
+                    // Handle unknown item or route
+                    console.error('Unknown item:', item);
+                    break;
+            }
+            // Clear search query and hide the sidebar
+            this.searchQuery = '';
+            this.showSidebar = false;
+        },
+    },
+    computed: {
+        ...mapState('auth', ['profile', 'profileLoading']),
+        filteredItems() {
+            return this.items.filter(item =>
+                item.toLowerCase().includes(this.searchQuery.toLowerCase())
+            );
+        }
     },
     mounted() {
         const menuToggle = document.querySelector('.menu-toggle');
@@ -160,11 +255,63 @@ export default {
                 overlay.classList.remove('active');
             });
         });
-    }
+    },
+
 }
 </script>
 
 <style scoped>
+.searchbar-wrapper2 {
+    position: absolute;
+    top: 2.8rem;
+    left: 0;
+    width: 100%;
+    padding: 0.5rem 1rem;
+    background-color: white;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+}
+
+.search-result-item {
+    padding: 0.5rem 0;
+    cursor: pointer;
+}
+
+.search-results {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    font-weight: 500;
+}
+
+.profile-icon {
+    font-size: 11px;
+    width: 18px;
+    color: #505050;
+}
+
+.profile-hr {
+    color: #fafcff;
+    margin: 0;
+}
+
+.profile-email {
+    font-size: 10px;
+    color: #9a9a9a;
+}
+
+.header-dropDown {
+    position: absolute;
+    inset: 0px auto auto 0px;
+    margin: 0px;
+    transform: translate(218px, 34px) !important;
+}
+
+.profile-dropdown {
+    display: flex;
+    justify-content: end;
+}
+
 .logo {
     width: 35%;
 }
@@ -327,6 +474,9 @@ export default {
 }
 
 @media screen and (max-width: 600px) {
+    .header-dropDown{
+        transform: translate3d(-32px, 34px, 0px) !important;
+    }
     .common-icon {
         width: 20px !important;
     }
