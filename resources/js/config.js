@@ -4,11 +4,11 @@ const config = {
         apiBaseUrl: 'http://localhost:8000/api/'
     },
     production: {
-        apiBaseUrl: 'https://admin.420finder.net/api/'
+        apiBaseUrl: 'http://51.20.181.199/api/'
     }
 };
 
 // Manually select the environment
-const environment = 'development'; // Change to 'production' for production
+const environment = 'production'; // Change to 'production' for production
 
 export default config[environment];
