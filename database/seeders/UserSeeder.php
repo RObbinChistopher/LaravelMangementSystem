@@ -13,10 +13,6 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
-          // You can create multiple users
-          User::factory(1)->create(); // Create 10 random users using the factory
-
-          // Or create a single user manually
           User::create([
               'name' => 'Admin',
               'email' => 'support@viseTech.com',
