@@ -12,3 +12,4 @@ const config = {
 const environment = 'productions'; // Change to 'production' for production
 
 export default config[environment];
+
