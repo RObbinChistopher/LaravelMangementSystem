@@ -19,10 +19,16 @@
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteRule ^ index.php [L]
 
-    # Add CORS Headers
+    # CORS Settings for Secure Context
     <IfModule mod_headers.c>
-        Header set Access-Control-Allow-Origin "*"
+        # Allow CORS for specific domains (secure context for HTTPS requests)
+        Header set Access-Control-Allow-Origin "https://51.20.181.199" # Add your front-end domain
         Header set Access-Control-Allow-Methods "GET, POST, PUT, DELETE, OPTIONS"
         Header set Access-Control-Allow-Headers "Origin, Content-Type, Accept, Authorization, X-Requested-With"
+
+        # Handle preflight OPTIONS requests
+        Header always set Access-Control-Allow-Methods "GET, POST, PUT, DELETE, OPTIONS"
+        Header always set Access-Control-Allow-Headers "Origin, Content-Type, Accept, Authorization, X-Requested-With"
+        Header always set Access-Control-Allow-Credentials "true"
     </IfModule>
 </IfModule>

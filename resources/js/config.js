@@ -4,7 +4,7 @@ const config = {
         apiBaseUrl: 'http://localhost:8000/api/'
     },
     productions: {
-        apiBaseUrl: 'http://51.20.181.199/api/'
+        apiBaseUrl: 'https://51.20.181.199/api/'
     }
 };
 
