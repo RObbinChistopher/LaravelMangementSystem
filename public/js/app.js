@@ -31864,12 +31864,12 @@ var config = {
   }
 };
 
-// Manually select the environment
-var environment = 'development'; // Change to 'development' for development
+// Manually select the environment (set 'productions' for production or 'development' for local development)
+var environment = 'productions'; // Change to 'productions' for production
 
+// Log the current environment and API URL for debugging
+console.log("Using API Base URL:", config[environment].apiBaseUrl);
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (config[environment]);
-
-// success we pass
 
 /***/ }),
 
