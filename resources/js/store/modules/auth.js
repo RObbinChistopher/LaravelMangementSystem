@@ -60,7 +60,7 @@ const authModule = {
 
     actions: {
         async fetchGetAllUsers({ commit }) {
-            let url = `https://51.20.181.199/api/all-users`;
+            let url = config.apiBaseUrl + `all-users`;
             const token = localStorage.getItem('token');
             try {
                 let response = await axios.get(url, {
@@ -75,7 +75,7 @@ const authModule = {
         },
         async login({ commit }, credentials) {
             try {
-                const response = await axios.post('https://51.20.181.199/api/login', credentials);
+                const response = await axios.post(config.apiBaseUrl + 'login', credentials);
                 console.log('Response data:', response.data);
 
                 if (response.data.token) {
