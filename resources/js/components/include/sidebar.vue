@@ -11,7 +11,7 @@
             </li>
             <li class="nav-item" v-if="profile.role === 'Admin'">
                 <router-link to="/users" aria-current="page"
-                    :class="{ 'nav-link link-dark text': true, 'active': isActive('/users') || isActive('/create-users') }"
+                    :class="{ 'nav-link link-dark text': true, 'active': isActive('/users') || isActive('/create-users') || isActive('/edit-users') }"
                     active-class="active">
                     <i class="fa-solid fa-user common-icon"></i>
                     Team Member
@@ -19,7 +19,8 @@
             </li>
             <li class="nav-item" v-if="profile.role === 'Admin'">
                 <router-link to="/service" aria-current="page"
-                    :class="{ 'nav-link link-dark text': true, 'active': isActive('/service') || isActive('/create-service') }"
+                    :class="{ 'nav-link link-dark text': true, 'active': isActive('/service') ||
+                     isActive('/create-service') || isActive('/edit-service') || isActive('/download-service-invoice') }"
                     active-class="active">
                     <i class="fa-solid fa-bell-concierge common-icon"></i>
                     Services
@@ -27,7 +28,7 @@
             </li>
             <li>
                 <router-link to="/projects"
-                    :class="{ 'nav-link link-dark text': true, 'active': isActive('/projects') || isActive('/create-project') }"
+                    :class="{ 'nav-link link-dark text': true, 'active': isActive('/projects') || isActive('/create-project') || isActive('/edit-project') }"
                     active-class="active">
                     <i class="fas fa-project-diagram common-icon"></i>
                     Projects
@@ -35,7 +36,7 @@
             </li>
             <li v-if="profile.role !== 'Team-Member'">
                 <router-link to="/milestones"
-                    :class="{ 'nav-link link-dark text': true, 'active': isActive('/milestones') || isActive('/create-milestones') }"
+                    :class="{ 'nav-link link-dark text': true, 'active': isActive('/milestones') || isActive('/create-milestones') || isActive('/edit-milestones') }"
                     active-class="active">
                     <i class="fa-solid fa-file-lines common-icon"></i>
                     Milestones
@@ -43,7 +44,7 @@
             </li>
             <li>
                 <router-link to="/tasks"
-                    :class="{ 'nav-link link-dark text': true, 'active': isActive('/tasks') || isActive('/create-tasks') }"
+                    :class="{ 'nav-link link-dark text': true, 'active': isActive('/tasks') || isActive('/create-tasks') || isActive('/edit-tasks')  }"
                     active-class="active">
                     <i class="fa-solid fa-list-check common-icon"></i>
                     Tasks
@@ -51,7 +52,7 @@
             </li>
             <li>
                 <router-link to="/notification"
-                    :class="{ 'nav-link link-dark text': true, 'active': isActive('/notification') || isActive('/create-notification') }"
+                    :class="{ 'nav-link link-dark text': true, 'active': isActive('/notification') || isActive('/create-notification') || isActive('/edit-notification') }"
                     active-class="active">
                     <i class="fa-solid fa-bell common-icon"></i>
                     Notifications

@@ -64,7 +64,7 @@ const routes = [
     // Notification 
     { path: '/notification', component: showNotification, name: 'showNotification', meta: { requiresAuth: true, } },
     { path: '/create-notification', component: createNotification, name: 'createNotification', meta: { requiresAuth: true, requiresRole: ['Project-Manager', 'Admin']} },
-    { path: '/edit-notificatio/:id', component: createNotification, name: 'editNotification', meta: { requiresAuth: true, requiresRole: ['Project-Manager', 'Admin']} },
+    { path: '/edit-notification/:id', component: createNotification, name: 'editNotification', meta: { requiresAuth: true, requiresRole: ['Project-Manager', 'Admin']} },
 
     // profile
     { path: '/profile-user', component: profile, name: 'profile', meta: { requiresAuth: true, } },

@@ -18,46 +18,7 @@
                 <div class="col-md-12">
                     <div class="parent-accordion mb-3" id="parent-accordion">
                         <div class="row" style="padding: 12px 10px;">
-                            <div class="col-md-4 show-content-card-right common-class">
-                                <div class="dashboard-card">
-                                    <div class="d-flex justify-content-between align-items-baseline">
-                                        <p class="text">Urgent Milestones</p>
-                                        <i class="fas fa-project-diagram text"></i>
-                                    </div>
-                                    <p class="text mb-2"
-                                        v-if="dashboard && dashboard.tasks && dashboard.tasks.urgent !== undefined">
-                                        {{ dashboard.tasks.urgent || '0' }}
-                                    </p>
-
-
-                                </div>
-
-                            </div>
-                            <div class="col-md-4 show-content-card-right show-content-left-card common-class">
-                                <div class="dashboard-card">
-                                    <div class="d-flex justify-content-between align-items-baseline">
-                                        <p class="text">Medium Milestones</p>
-                                        <i class="fas fa-project-diagram text"></i>
-                                    </div>
-                                    <p class="text mb-2" v-if="dashboard && dashboard.tasks && dashboard.tasks.medium !== undefined">
-                                        {{ dashboard.tasks.medium || '0' }}</p>
-                                </div>
-                            </div>
-                            <div class="col-md-4 show-content-left-card common-class">
-                                <div class="dashboard-card">
-                                    <div class="d-flex justify-content-between align-items-baseline">
-                                        <p class="text">Lower Milestones</p>
-                                        <i class="fas fa-project-diagram text"></i>
-                                    </div>
-                                    <p class="text mb-2" v-if="dashboard && dashboard.tasks && dashboard.tasks.lower !== undefined">
-                                        {{ dashboard.tasks.lower || '0' }}</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="parent-accordion mb-3" id="parent-accordion">
-                        <div class="row" style="padding: 12px 10px;">
-                            <div class="col-md-4 show-content-card-right common-class">
+                            <div class="col-md-6 show-content-card-right common-class">
                                 <div class="dashboard-card">
                                     <div class="d-flex justify-content-between align-items-baseline">
                                         <p class="text">Complete Milestones</p>
@@ -69,7 +30,7 @@
                                 </div>
 
                             </div>
-                            <div class="col-md-4 show-content-card-right show-content-left-card common-class">
+                            <div class="col-md-6 show-content-card-right show-content-left-card common-class" style="padding-right: 14px;">
                                 <div class="dashboard-card">
                                     <div class="d-flex justify-content-between align-items-baseline">
                                         <p class="text">Progress Milestones</p>
@@ -78,17 +39,6 @@
                                     <p class="text mb-2"
                                         v-if="dashboard && dashboard.milestones && dashboard.milestones.progress !== undefined">{{
                                             dashboard.milestones.progress || '0' }}</p>
-                                </div>
-                            </div>
-                            <div class="col-md-4 show-content-left-card common-class">
-                                <div class="dashboard-card">
-                                    <div class="d-flex justify-content-between align-items-baseline">
-                                        <p class="text">Incomplete Milestones</p>
-                                        <i class="fas fa-project-diagram text"></i>
-                                    </div>
-                                    <p class="text mb-2"
-                                        v-if="dashboard && dashboard.milestones && dashboard.milestones.incomplete !== undefined">
-                                        {{ dashboard.milestones.incomplete || '0' }}</p>
                                 </div>
                             </div>
                         </div>

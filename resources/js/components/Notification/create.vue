@@ -8,8 +8,12 @@
                     <h3 class="heading" v-else>Add Notifications</h3>
                 </div>
             </router-link>
-
-            <div class="row">
+            <div class="spinner2 d-flex justify-content-center" v-if="singleNotificationLoading">
+                <div class="spinner-border" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+            </div>
+            <div class="row" v-else>
                 <form @submit.prevent="sendEmail">
                     <div class="col-md-10">
                         <div class="parent-accordion p-3 mb-3" id="parent-accordion">
