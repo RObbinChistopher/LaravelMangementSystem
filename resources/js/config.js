@@ -3,12 +3,12 @@ const config = {
     development: {
         apiBaseUrl: 'http://localhost:8000/api/'
     },
-    productions: {
-        apiBaseUrl: 'https://51.20.181.199/api/'
+    production: {
+        apiBaseUrl: 'https://crm.visetech.org'
     }
 };
 
-const environment = 'productions';
+const environment = 'production';
 console.log("Using API Base URL:", config[environment].apiBaseUrl);
 
 export default config[environment];
