@@ -31799,10 +31799,10 @@ var config = {
     apiBaseUrl: 'http://localhost:8000/api/'
   },
   production: {
-    apiBaseUrl: 'https://51.20.181.199/api/'
+    apiBaseUrl: 'https://crm.visetech.org/api/'
   }
 };
-var environment = 'development';
+var environment = 'production';
 console.log("Using API Base URL:", config[environment].apiBaseUrl);
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (config[environment]);
 

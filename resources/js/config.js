@@ -4,7 +4,7 @@ const config = {
         apiBaseUrl: 'http://localhost:8000/api/'
     },
     production: {
-        apiBaseUrl: 'https://crm.visetech.org'
+        apiBaseUrl: 'https://crm.visetech.org/api/'
     }
 };
 
