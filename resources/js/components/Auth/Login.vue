@@ -2,7 +2,7 @@
     <div class="container">
         <div class="offset-md-1 parent-accordion p-3 login_page" id="parent-accordion">
             <div class="p-3">
-                <img class="logo" src="/images/logo.png" alt="A picture or an image of Shopify logo for desktop"
+                <img class="logo" src="/Images/logo.png" alt="A picture or an image of Shopify logo for desktop"
                     title="Visit Shopify website" width="105px" height="auto" />
                 <div class="flex-col gap-0">
                     <p class="heading mb-0" style="font-size: 28px; font-weight:700;">Log in</p>

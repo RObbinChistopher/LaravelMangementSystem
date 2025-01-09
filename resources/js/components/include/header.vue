@@ -4,7 +4,7 @@
             class="d-flex flex-wrap align-items-center justify-content-between justify-content-md-between py-3 border-bottom">
             <a href="/"
                 class="d-flex align-items-center col-md-3 mb-2 mb-md-0 text-dark text-decoration-none desktop-logo">
-                <img src="/images/logo.png" class="logo" alt="">
+                <img src="/Images/logo.png" class="logo" alt="">
             </a>
 
             <!-- Menu Toggle -->
@@ -19,7 +19,7 @@
                 <!-- Sidebar -->
                 <div class="sidebar">
                     <button class="close-btn">✕</button>
-                    <img src="/images/logo.png" class="logo" alt="">
+                    <img src="/Images/logo.png" class="logo" alt="">
                     <ul class="nav nav-pills flex-column mb-auto mt-3">
                         <li>
                             <router-link to="/dashboard" aria-current="page"
