@@ -1,7 +1,7 @@
 <template>
     <div class="container">
         <div class="main-container">
-            <router-link to="/service" class="add-link">
+            <router-link to="/in-voice" class="add-link">
                 <div class="row1">
                     <i class="fas fa-arrow-left"></i>
                     <h3 class="heading" v-if="this.$route.params.id">Edit Service</h3>
@@ -45,29 +45,44 @@
                         </div>
                         <div class="parent-accordion p-3 mb-3" id="parent-accordion">
                             <div class="form-group mb-2">
-                                <label for="licenseType" class="form-label text mb-1">Client Service*</label>
+                                <label for="licenseType" class="form-label text mb-1">Service*</label>
                                 <div class="input-icon">
                                     <select class="form-control form-select" id="licenseType" v-model="from.service"
+                                        @change="updateServicePrice"
                                         :class="{ 'is-invalid': errors.includes('Service Selection Is Required') }">
                                         <option value="" class="text2">Select a Client Service</option>
-                                        <option value="web-design" class="text2">Web Design</option>
-                                        <option value="web-development" class="text2">Web Development</option>
-                                        <option value="ecommerce" class="text2">E-commerce Development</option>
-                                        <option value="seo" class="text2">SEO Services</option>
-                                        <option value="ui-ux-design" class="text2">UI/UX Design</option>
-                                        <option value="maintenance" class="text2">Website Maintenance</option>
-                                        <option value="digital-marketing" class="text2">Digital Marketing</option>
-                                        <option value="cms-development" class="text2">CMS Development</option>
-                                        <option value="api-integration" class="text2">API Integration</option>
-                                        <option value="hosting-services" class="text2">Hosting Services</option>
+                                        <option :value="item.id" class="text2" v-for="item in allserviceDetails">{{
+                                            item.name }}</option>
                                     </select>
+
                                     <span v-if="errors.includes('Service Selection Is Required')"
-                                        class="invalid-feedback">Service Selection Is Required</span>
+                                        class="invalid-feedback">
+                                        Service Selection Is Required
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="mb-2" v-if="from.service">
+                                <label for="businessName" class="form-label text">Service Price*</label>
+                                <div class="input-group mb-3">
+                                    <span class="input-group-text" id="basic-addon1">$</span>
+                                    <input type="text" class="form-control" readonly placeholder="Service Price"
+                                        v-model="this.from.service_price" aria-label="Username" 
+                                        aria-describedby="basic-addon1">
+                                </div>
+                            </div>
+                            <div class="mb-2" v-if="from.service">
+                                <label for="businessName" class="form-label text">Service Tax*</label>
+                                <div class="input-group mb-3">
+                                    <span class="input-group-text" id="basic-addon1">%</span>
+                                    <input type="text" class="form-control" readonly placeholder="Service Tax"
+                                        v-model="this.from.service_tax" aria-label="Username"
+                                        aria-describedby="basic-addon1">
                                 </div>
                             </div>
 
                             <div class="form-group mb-2">
-                                <label for="licenseType" class="form-label text mb-1">Client Package*</label>
+                                <label for="licenseType" class="form-label text mb-1">Package*</label>
                                 <div class="input-icon">
                                     <select class="form-control form-select" id="licenseType" v-model="from.package"
                                         :class="{ 'is-invalid': errors.includes('Package Selection Is Required') }">
@@ -185,6 +200,9 @@ export default {
     components: { QuillEditor },
     data() {
         return {
+            selectedServiceId: "", // Stores the ID of the selected service
+            selectedServicePrice: "", // Stores the price of the selected service
+            selectedServiceTax: "", // Stores the price of the selected service
             from: {
                 client_name: "",
                 email: "",
@@ -197,6 +215,8 @@ export default {
                 description: "",
                 payment_status: 'pending',
                 invoice: '',
+                service_price: '',
+                service_tax: '',
             },
             errors: [],
             loading: false,
@@ -204,7 +224,14 @@ export default {
         };
     },
     methods: {
-        ...mapActions('service', ['fetchSingleServices']),
+        ...mapActions('service', ['fetchSingleServices', 'fetchAllServicesDetailsData']),
+        updateServicePrice() {
+            const selectedService = this.allserviceDetails.find(
+                (service) => service.id === parseInt(this.from.service)
+            );
+            this.from.service_price = selectedService ? selectedService.price : "";
+            this.from.service_tax  = selectedService ? selectedService.tax : "";
+        },
         handleFileUpload(event) {
             const file = event.target.files[0];
             this.from.invoice = file;
@@ -260,14 +287,14 @@ export default {
                     }
                 });
                 if (this.$route.params.id) {
-                    this.$router.push('/service');
+                    this.$router.push('/in-voice');
                     setTimeout(() => {
-                        toast.success('Service Update Successfully');
+                        toast.success('Invoice Update Successfully');
                     }, 500);
                 } else {
-                    this.$router.push('/service');
+                    this.$router.push('/in-voice');
                     setTimeout(() => {
-                        toast.success('Service Created Successfully');
+                        toast.success('Invoice Created Successfully');
                     }, 500);
                 }
 
@@ -282,7 +309,7 @@ export default {
         }
     },
     computed: {
-        ...mapState('service', ['singleService', 'singleServicesLoading']),
+        ...mapState('service', ['singleService', 'singleServicesLoading', 'allserviceDetails']),
     },
     watch: {
         singleService(newDetail) {
@@ -293,6 +320,8 @@ export default {
                 this.from.description = newDetail.description || '';
                 this.from.package = newDetail.package || '';
                 this.from.service = newDetail.service || '';
+                this.from.service_price = newDetail.service_price || '';
+                this.from.service_tax = newDetail.service_tax || '';
                 this.from.total_payment = newDetail.total_payment || '';
                 this.from.initial_payment = newDetail.initial_payment || '';
                 this.from.remaining_payment = newDetail.remaining_payment || '';
@@ -314,7 +343,7 @@ export default {
         if (this.$route.params.id) {
             this.fetchSingleServices(this.$route.params.id)
         }
-
+        this.fetchAllServicesDetailsData();
     }
 }
 </script>

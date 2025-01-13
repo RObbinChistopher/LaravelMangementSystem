@@ -48,6 +48,7 @@ class UserController extends Controller
         $user->email = $request->email;
         $user->name = $request->name;
         $user->role = $request->role;
+        $user->position = $request->position;
         $user->password =  Hash::make($request->password);
         $user->save();
         return response()->json(['user' => new userResource($user), 'token' => $user->createToken('MyApp')->accessToken]);
@@ -65,6 +66,7 @@ class UserController extends Controller
         $user->email = $request->email;
         $user->name = $request->name;
         $user->role = $request->role;
+        $user->position = $request->position;
         $user->save();
         return response()->json(['user' => new userResource($user)]);
     }

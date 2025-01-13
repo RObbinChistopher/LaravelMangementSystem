@@ -46,9 +46,15 @@
                                         <option value="" class="text2">Select a Role</option>
                                         <option value="Admin" class="text2">Admin</option>
                                         <option value="Project-Manager" class="text2">Project Manager</option>
+                                        <option value="Project-Manager" class="text2">Team Lead</option>
                                         <option value="Team-Member" class="text2">Team Member</option>
                                     </select>
                                 </div>
+                            </div>
+                            <div class="form-group mb-2">
+                                <label for="userName" class="form-label text">User Position</label>
+                                <input type="text" class="form-control" id="userName" v-model="from.position"
+                                    placeholder="User Position">
                             </div>
                         </div>
 
@@ -120,7 +126,8 @@ export default {
                 email: "",
                 role: "",
                 password: "",
-                confirmPassword: ""
+                confirmPassword: "",
+                position: "",
             },
             errors: [],
             loading: false,
@@ -158,6 +165,7 @@ export default {
             formData.append('name', this.from.name);
             formData.append('email', this.from.email);
             formData.append('role', this.from.role);
+            formData.append('position', this.from.position);
             if (!this.$route.params.id) {
                 formData.append('password', this.from.password);
             }
@@ -209,6 +217,7 @@ export default {
                 this.from.name = newDetail.name || '';
                 this.from.email = newDetail.email || '';
                 this.from.role = newDetail.role || '';
+                this.from.position = newDetail.position || '';
             }
         },
 

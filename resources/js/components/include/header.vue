@@ -124,7 +124,7 @@
                 <div class="dropdown profile-dropdown">
                     <a href="#" class="d-flex align-items-center link-dark text-decoration-none dropdown-toggle"
                         id="dropdownUser2" data-bs-toggle="dropdown" aria-expanded="false">
-                        <img :src="profile.profile ? profile.profile : '/images/ViceTech.png'" alt="" width="32"
+                        <img :src="profile.profile ? profile.profile : '/Images/ViceTech.png'" alt="" width="32"
                             height="32" class="rounded-circle me-2" />
                         <strong>{{ profile.name }}</strong>
                     </a>

@@ -5,7 +5,7 @@
             </div>
             <div class="col-md-8 col-6">
                 <div class="btn-text m-0 add-new-cat " style="display: flex; justify-content: flex-end;">
-                    <router-link to="/service" class="import2 add-cc hover-cc">Back</router-link>
+                    <router-link to="/in-voice" class="import2 add-cc hover-cc">Back</router-link>
                 </div>
             </div>
         </div>

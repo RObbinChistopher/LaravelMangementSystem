@@ -29,11 +29,14 @@ import profile from './components/Profile/show.vue'
 // dashboard
 import dashboard from './components/Dashboard/show.vue'
 
-// Services
-import service from './components/Services/show.vue'
-import createService from './components/Services/create.vue';
+// invoice
+import invoices from './components/Services/show.vue'
+import createInvoice from './components/Services/create.vue';
 import invoice from './components/Services/invoice.vue';
 
+// service 
+import service from './components/Services/service-detail/show.vue'
+import createService from './components/Services/service-detail/create.vue'
 // unauthorized
 import showUnauthorized from './components/unauthoriz/show.vue'
 
@@ -73,14 +76,16 @@ const routes = [
     { path: '/dashboard', component: dashboard, name: 'dashboard', meta: { requiresAuth: true } },
 
 
+    // invoice
+    { path: '/in-voice', component: invoices, name: 'invoices', meta: { requiresAuth: true, requiresRole: 'Admin' } },
+    { path: '/create-invoice', component: createInvoice, name: 'createinvoice', meta: { requiresAuth: true, requiresRole: 'Admin' } },
+    { path: '/edit-invoice/:id', component: createInvoice, name: 'editinvoice', meta: { requiresAuth: true, requiresRole: 'Admin' } },
+    { path: '/download-invoice/:id', component: invoice, name: 'invoice', meta: { requiresAuth: true, requiresRole: 'Admin' } },
+
     // service
     { path: '/service', component: service, name: 'service', meta: { requiresAuth: true, requiresRole: 'Admin' } },
     { path: '/create-service', component: createService, name: 'createService', meta: { requiresAuth: true, requiresRole: 'Admin' } },
     { path: '/edit-service/:id', component: createService, name: 'editService', meta: { requiresAuth: true, requiresRole: 'Admin' } },
-    { path: '/download-service-invoice/:id', component: invoice, name: 'invoice', meta: { requiresAuth: true, requiresRole: 'Admin' } },
-
-
-
 
     { path: '/Unauthorized', component: showUnauthorized, name: 'showUnauthorized', meta: { showHeader: false, showSlideBar: false, requiresAuth: true } },
 

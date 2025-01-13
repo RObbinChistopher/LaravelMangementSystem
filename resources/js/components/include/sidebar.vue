@@ -18,12 +18,13 @@
                 </router-link>
             </li>
             <li class="nav-item" v-if="profile.role === 'Admin'">
-                <router-link to="/service" aria-current="page"
-                    :class="{ 'nav-link link-dark text': true, 'active': isActive('/service') ||
-                     isActive('/create-service') || isActive('/edit-service') || isActive('/download-service-invoice') }"
-                    active-class="active">
-                    <i class="fa-solid fa-bell-concierge common-icon"></i>
-                    Services
+                <router-link to="/in-voice" aria-current="page" :class="{
+                    'nav-link link-dark text': true, 'active': isActive('/in-voice') ||
+                        isActive('/create-invoice') || isActive('/edit-invoice') || isActive('/download-invoice') || 
+                        isActive('/service') || isActive('/create-service') || isActive('/edit-service')
+                }" active-class="active">
+                    <i class="fa-solid fa-file-invoice common-icon"></i>
+                    Invoice
                 </router-link>
             </li>
             <li>
@@ -44,7 +45,7 @@
             </li>
             <li>
                 <router-link to="/tasks"
-                    :class="{ 'nav-link link-dark text': true, 'active': isActive('/tasks') || isActive('/create-tasks') || isActive('/edit-tasks')  }"
+                    :class="{ 'nav-link link-dark text': true, 'active': isActive('/tasks') || isActive('/create-tasks') || isActive('/edit-tasks') }"
                     active-class="active">
                     <i class="fa-solid fa-list-check common-icon"></i>
                     Tasks
@@ -59,14 +60,15 @@
                 </router-link>
             </li>
             <li>
-                <router-link to="/profile-user" :class="{ 'nav-link link-dark text': true, 'active': isActive('/profile-user') }"
+                <router-link to="/profile-user"
+                    :class="{ 'nav-link link-dark text': true, 'active': isActive('/profile-user') }"
                     active-class="active">
                     <i class="fa-solid fa-address-card common-icon"></i>
                     Profile
                 </router-link>
             </li>
             <li>
-                <a href="#" class="nav-link link-dark text"  @click="logoutUser">
+                <a href="#" class="nav-link link-dark text" @click="logoutUser">
                     <i class="fa-solid fa-right-from-bracket common-icon"></i>
                     Logout
                 </a>
@@ -113,7 +115,7 @@ export default {
         ...mapState('auth', ['profile', 'profileLoading'])
     },
 
-    mounted(){
+    mounted() {
         this.fetchloginUser();
     }
 }

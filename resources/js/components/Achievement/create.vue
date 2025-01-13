@@ -69,7 +69,6 @@
                                 <label for="addressLine1" class="form-label text">Description</label>
                                 <quill-editor toolbar="full" v-model:content="from.description" :content-type="'html'"
                                     class="custom-quill-editor" theme="snow" />
-
                             </div>
                         </div>
                         <button type="submit" class="save-btn text">
@@ -86,6 +85,7 @@
         </div>
     </div>
 </template>
+
 <script>
 import { QuillEditor } from '@vueup/vue-quill'
 import '@vueup/vue-quill/dist/vue-quill.snow.css';
@@ -93,6 +93,7 @@ import { mapState, mapActions } from 'vuex/dist/vuex.cjs.js';
 import config from '../../config';
 import { toast } from 'vue3-toastify';
 import 'vue3-toastify/dist/index.css';
+
 export default {
     components: { QuillEditor },
     data() {
@@ -104,8 +105,10 @@ export default {
                 status: "",
                 description: "" // Added confirmPassword field
             },
+            originalFrom: {}, // Store the initial state
             errors: [],
             loading: false,
+            isFormDirty: false // Track form changes
         };
     },
     methods: {
@@ -122,7 +125,6 @@ export default {
                 return;
             }
 
-            // If no validation errors, proceed with the form submission
             this.loading = true;
 
             const formData = new FormData();
@@ -131,7 +133,6 @@ export default {
             formData.append('deadline', this.from.deadline);
             formData.append('status', this.from.status);
             formData.append('description', this.from.description);
-
 
             let url;
             if (this.$route.params.id) {
@@ -150,7 +151,7 @@ export default {
                 if (this.$route.params.id) {
                     this.$router.push('/milestones');
                     setTimeout(() => {
-                        toast.success('Your Milestore Update Successfully');
+                        toast.success('Your Milestore Updated Successfully');
                     }, 500);
                 } else {
                     this.$router.push('/milestones');
@@ -163,6 +164,11 @@ export default {
                 console.error("API call error:", error);
                 this.loading = false;
             }
+        },
+
+        // Compare form data with the original data
+        checkFormDirty() {
+            this.isFormDirty = JSON.stringify(this.from) !== JSON.stringify(this.originalFrom);
         },
     },
     computed: {
@@ -177,18 +183,40 @@ export default {
                 this.from.deadline = newDetail.deadline || '';
                 this.from.status = newDetail.status || '';
                 this.from.description = newDetail.description || '';
+                this.originalFrom = { ...this.from }; // Store original form data
             }
         },
-
+        // Track form changes and update the dirty status
+        'from.name': 'checkFormDirty',
+        'from.projectId': 'checkFormDirty',
+        'from.deadline': 'checkFormDirty',
+        'from.status': 'checkFormDirty',
+        'from.description': 'checkFormDirty'
     },
     mounted() {
         if (this.$route.params.id) {
-            this.fetchSingleMilestores(this.$route.params.id)
+            this.fetchSingleMilestores(this.$route.params.id);
         }
-        this.fetchAllProjects(1)
+        this.fetchAllProjects(1);
+
+        // Save the original form data
+        this.originalFrom = { ...this.from };
+    },
+    beforeRouteLeave(to, from, next) {
+        if (this.isFormDirty) {
+            const answer = window.confirm('You have unsaved changes, are you sure you want to leave?');
+            if (answer) {
+                next();
+            } else {
+                next(false); // Prevent navigation
+            }
+        } else {
+            next(); // Proceed with navigation
+        }
     }
 }
 </script>
+
 <style scoped>
 .text {
     color: #626262 !important;

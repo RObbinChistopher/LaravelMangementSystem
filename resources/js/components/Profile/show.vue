@@ -22,7 +22,7 @@
                                 <img v-if="previewImage" :src="previewImage"
                                     style="width: 25%; margin-top: 10px; margin-bottom: 2rem;">
                                 <br>
-                                <img :src="profile.profile ? profile.profile : '/images/logo.png'" v-if="profile"
+                                <img :src="profile.profile ? profile.profile : '/Images/logo.png'" v-if="profile"
                                     style="width: 25%; margin-top: 10px; margin-bottom: 1rem">
 
                                 <br>
@@ -62,12 +62,7 @@
                                 <label for="businessName" class="form-label text">Phone Number*</label>
                                 <input type="Number" class="form-control" id="businessName" v-model="from.phone"
                                     v-if="profile"
-                                    :class="{ 'is-invalid': errors.includes('Your Phone Number Is Required') }"
                                     placeholder="Phone Number">
-
-                                <span v-if="errors.includes('Your Phone Number Is Required')"
-                                    class="invalid-feedback">Your
-                                    Phone Number Is Required</span>
                             </div>
                         </div>
 
@@ -149,7 +144,6 @@ export default {
             this.errors = [];
             if (!this.from.name) this.errors.push('Your Name Is Required');
             if (!this.from.email) this.errors.push('Your Email Is Required');
-            if (!this.from.phone) this.errors.push('Your Phone Number Is Required');
 
             if (this.errors.length > 0) {
                 console.log("Validation errors:", this.errors);
@@ -197,6 +191,7 @@ export default {
                 return;
             }
             this.updatePassword(this.new_password);
+            toast.success('Your Password Update Successfully');
         },
     },
     computed: {

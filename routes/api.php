@@ -4,6 +4,7 @@ use App\Http\Controllers\MilestonesController;
 use App\Http\Controllers\NotificationsController;
 use App\Http\Controllers\ProjectsController;
 use App\Http\Controllers\ServiceController;
+use App\Http\Controllers\ServiceDetailsController;
 use App\Http\Controllers\TasksController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
@@ -82,6 +83,16 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::get('filttle-services/{service}', [ServiceController::class,'filttleByService']);
     Route::get('filttle-services-status/{status}', [ServiceController::class,'filteByServiceStatus']);
     Route::delete('delete-services/{id}', [ServiceController::class,'deleteService']);
+
+
+
+    Route::post('store-services-details', [ServiceDetailsController::class, 'storeServiceDetails']);
+    Route::post('update-services-details/{id}', [ServiceDetailsController::class, 'updateServiceDetails']);
+    Route::get('services-details-data', [ServiceDetailsController::class, 'allServiceDetailsData']);
+    Route::get('show-services-details', [ServiceDetailsController::class, 'showService']);
+    Route::get('edit-services-details/{id}', [ServiceDetailsController::class, 'editServiceDetails']);
+    Route::delete('delete-services-details/{id}', [ServiceDetailsController::class, 'deleteServiceDetails']);
+
 
     // Notifications
     Route::post('send-email', [NotificationsController::class, 'sendEmail']);

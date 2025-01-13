@@ -17,7 +17,7 @@
                     </div>
                     <div class="mt-2 mb-2">
                         <label for="exampleFormControlInput1" class="form-label text mb-0 font-size">Password</label>
-                        <input type="text" class="form-control" id="exampleFormControlInput1" placeholder=""
+                        <input type="password" class="form-control" id="exampleFormControlInput1" placeholder=""
                             v-model="credentials.password" style="box-shadow: none">
                     </div>
                     <button class="save-btn-login mb-2" :disabled="loading">
