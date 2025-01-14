@@ -62,15 +62,15 @@
                             </tr>
                             <tr>
                                 <td>Total Payment</td>
-                                <td>{{ singleService.total_payment }}</td>
+                                <td>{{ singleService.total_payment }}$</td>
                             </tr>
                             <tr>
                                 <td>Initial Payment</td>
-                                <td>{{ singleService.initial_payment }}</td>
+                                <td>{{ singleService.initial_payment }}$</td>
                             </tr>
                             <tr>
                                 <td>Remaining Payment</td>
-                                <td>{{ singleService.remaining_payment }}</td>
+                                <td>{{ singleService.remaining_payment }}$</td>
                             </tr>
                             <tr>
                                 <td>Payment Status</td>

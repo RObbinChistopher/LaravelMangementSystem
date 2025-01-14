@@ -1,14 +1,14 @@
 @extends('include.master')
 
 @section('content')
-<div style="font-family: 'Arial', sans-serif; background-color: #f4f7fc; padding: 20px;">
-    <div style="background-color: #ffffff; max-width: 600px; margin: 0 auto; padding: 30px; border-radius: 8px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);">
+<div style="padding: 20px;">
+    <div style="margin: 0 auto; padding: 30px; border-radius: 8px;">
         <p style="font-size: 16px; color: #34495e;">Dear <strong>{{ $task['userName'] }},</strong></p>
 
         <p style="font-size: 16px; color: #34495e;">
             I hope this message finds you well. I am submitting the details of the task. The task is 
-            <strong>{{ $task['name'] }}</strong>, and it modular <strong>{{ $task['milestoneId'] }}</strong> 
-            and is scheduled to be completed by <strong>{{ $task['deadline'] }}</strong>. 
+            <strong>{{ $task['name'] }}</strong>, and modular <strong>{{ $task['milestoneId'] }}</strong> 
+            and deadline is <strong>{{ $task['deadline'] }}</strong>. 
             The current status of the task is <strong>{{ $task['status'] }}</strong> 
             and priority <strong>{{ $task['priority'] }}</strong>.
         </p>

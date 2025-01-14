@@ -215,7 +215,7 @@ export default {
             try {
                 const formData = new FormData();
                 formData.append('name', this.from.name);
-                formData.append('milestoneId', this.from.milestoneId);
+                formData.append('milestoneId', this.selectedMileStonePosition);
                 formData.append('userId', this.from.userId);
                 formData.append('deadline', this.from.deadline);
                 formData.append('priority', this.from.priority);
@@ -233,7 +233,7 @@ export default {
                 console.log("Email sent successfully:", response.data.message);
                 this.successMessage = response.data.message;
                 this.errorMessage = '';
-                this.$router.push('/notification');
+                this.$router.push('/tasks');
             } catch (error) {
                 console.error("Error sending email:", error);
                 this.errorMessage = error.response?.data?.message || 'Failed to send email.';
@@ -257,6 +257,10 @@ export default {
         selectedUserPosition() {
             const selectedUser = this.allUser.find(user => user.id === this.from.userId);
             return selectedUser ? selectedUser.position : '';
+        },
+        selectedMileStonePosition() {
+            const selectedMilestone = this.allMileStone.find(user => user.id === this.from.milestoneId);
+            return selectedMilestone ? selectedMilestone.name : '';
         },
     },
     watch: {

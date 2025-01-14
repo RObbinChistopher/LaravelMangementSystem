@@ -49,15 +49,15 @@
                 </tr>
                 <tr>
                     <td style="padding: 10px; border: 1px solid #ddd;">Total Payment</td>
-                    <td style="padding: 10px; border: 1px solid #ddd;">{{ $total_payment }}</td>
+                    <td style="padding: 10px; border: 1px solid #ddd;">{{ $total_payment }}$</td>
                 </tr>
                 <tr>
                     <td style="padding: 10px; border: 1px solid #ddd;">Initial Payment</td>
-                    <td style="padding: 10px; border: 1px solid #ddd;">{{ $initial_payment }}</td>
+                    <td style="padding: 10px; border: 1px solid #ddd;">{{ $initial_payment }}$</td>
                 </tr>
                 <tr>
                     <td style="padding: 10px; border: 1px solid #ddd;">Remaining Payment</td>
-                    <td style="padding: 10px; border: 1px solid #ddd;">{{ $remaining_payment }}</td>
+                    <td style="padding: 10px; border: 1px solid #ddd;">{{ $remaining_payment }}$</td>
                 </tr>
                 <tr>
                     <td style="padding: 10px; border: 1px solid #ddd;">Payment Status</td>
