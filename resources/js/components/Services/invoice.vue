@@ -25,7 +25,7 @@
                 <div class="row">
                     <div class="col-md-6">
                         <div class="client-details">
-                            <img src="/images/logo.png" class="logo mb-2">
+                            <img src="/Images/logo.png" class="logo mb-2">
                             <p><strong>Email:</strong> vise.tech1@gmail.com</p>
                             <p><strong>Phone #:</strong> +92 3004257361</p>
                             <p><strong>Loaction:</strong>Cavalry Ground, Lahore<br>Punjab, Pakistan</p>
@@ -54,7 +54,7 @@
                         <tbody>
                             <tr>
                                 <td>Service</td>
-                                <td>{{ singleService.service }}</td>
+                                <td>{{ singleService.service_name }}</td>
                             </tr>
                             <tr>
                                 <td>Package</td>
@@ -91,11 +91,18 @@
                 <div class="description">
                     <div class="text-center">Thank you for your business!</div>
                 </div>
-                <button @click="downloadInvoice" :disabled="loading">
-                    <span v-if="!loading">Download Invoice as PDF</span>
-                    <span v-else class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-                    <span class="visually-hidden">Loading...</span>
-                </button>
+                <div class="d-flex justify-content-between align-items-center">
+                    <button @click="downloadInvoice" :disabled="loading">
+                        <span v-if="!loading">Download Invoice as PDF</span>
+                        <span v-else class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                        <span class="visually-hidden">Loading...</span>
+                    </button>
+                    <button @click="sendTasksEmail" :disabled="loading">
+                        <span v-if="!loading">Send Email</span>
+                        <span v-else class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                        <span class="visually-hidden">Loading...</span>
+                    </button>
+                </div>
             </div>
         </div>
     </div>
@@ -126,7 +133,7 @@ export default {
                     client_name: this.singleService.client_name,
                     email: this.singleService.email,
                     phone: this.singleService.phone,
-                    service: this.singleService.service,
+                    service: this.singleService.service_name,
                     package: this.singleService.package,
                     total_payment: this.singleService.total_payment,
                     initial_payment: this.singleService.initial_payment,
@@ -151,7 +158,39 @@ export default {
             } finally {
                 this.loading = false; // Stop loading
             }
-        }
+        },
+        async sendTasksEmail() {
+
+            const token = localStorage.getItem('token');
+            try {
+                this.loading = true;
+                const response = await axios.post('/api/send-service-email', {
+                    client_name: this.singleService.client_name,
+                    email: this.singleService.email,
+                    phone: this.singleService.phone,
+                    service: this.singleService.service_name,
+                    package: this.singleService.package,
+                    total_payment: this.singleService.total_payment,
+                    initial_payment: this.singleService.initial_payment,
+                    remaining_payment: this.singleService.remaining_payment,
+                    payment_status: this.singleService.payment_status,
+                    starting_date: this.singleService.starting_date,
+                    ending_date: this.singleService.ending_date
+                }, {
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                    }
+                })
+                toast.success('Email Send Successfully')
+            } catch (error) {
+                console.error("Error sending email:", error);
+                this.errorMessage = error.response?.data?.message || 'Failed to send email.';
+                this.successMessage = '';
+            } finally {
+                this.loading = false; // Stop loading
+            }
+        },
+
     },
     computed: {
         ...mapState('service', ['singleService', 'singleServicesLoading']),

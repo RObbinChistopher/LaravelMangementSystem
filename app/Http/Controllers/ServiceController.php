@@ -8,12 +8,41 @@ use App\Traits\ImageUploadTrait;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use Barryvdh\DomPDF\Facade\Pdf;
-use Cron\DayOfWeekField;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\InvoiceEmail;
+
 
 class ServiceController extends Controller
 {
 
     use ImageUploadTrait;
+    public function sendServiceEmail(Request $request)
+    {
+        // Get the task data from the request
+        $task = $request->only([
+            'client_name',
+            'email',
+            'phone',
+            'service',
+            'package',
+            'total_payment',
+            'initial_payment',
+            'remaining_payment',
+            'payment_status',
+            'starting_date',
+            'ending_date',
+        ]);
+
+
+        // Get recipient email
+        $recipientEmail = $task['email'];
+
+        // Send email using a Mailable class
+        Mail::to($recipientEmail)->send(new InvoiceEmail($task));
+
+        return response()->json(['message' => 'Email sent successfully']);
+    }
+
     public function storeService(Request $request)
     {
         $service = new Service();

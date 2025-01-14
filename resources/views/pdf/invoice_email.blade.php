@@ -9,19 +9,19 @@
             <tr>
                 <!-- Company Details -->
                 <td style="vertical-align: top; width: 50%; padding-right: 20px;">
-                    <img src="{{ public_path('Images/logo.png') }}" style="width: 150px; margin-bottom: 10px;" alt="Vise Tech">
+                    <img src="https://crm.visetech.org/Images/logo.png" style="width: 150px; margin-bottom: 10px;" alt="Vise Tech">
                     <p style="margin: 5px 0; line-height: 1.5;"><strong>Email:</strong> vise.tech1@gmail.com</p>
                     <p style="margin: 5px 0; line-height: 1.5;"><strong>Phone:</strong> +92 3004257361</p>
                     <p style="margin: 5px 0; line-height: 1.5;">
-                        <strong>Location:</strong> Cavalry Ground, <br>Lahore, Punjab, Pakistan
+                        <strong>Location:</strong> Cavalry Ground, Lahore, Punjab, Pakistan
                     </p>
                 </td>
                 <!-- Client Details -->
                 <td style="vertical-align: top; width: 50%;">
                     <h2 style="margin: 0 0 10px; font-size: 2rem;">Client Details</h2>
-                    <p style="margin: 5px 0; line-height: 1.5;"><strong>Client Name:</strong> {{ $client_name }}</p>
-                    <p style="margin: 5px 0; line-height: 1.5;"><strong>Client Email:</strong> {{ $email }}</p>
-                    <p style="margin: 5px 0; line-height: 1.5;"><strong>Client Phone:</strong> {{ $phone }}</p>
+                    <p style="margin: 5px 0; line-height: 1.5;"><strong>Client Name:</strong> {{ $task['client_name'] }}</p>
+                    <p style="margin: 5px 0; line-height: 1.5;"><strong>Client Email:</strong> {{ $task['email'] }}</p>
+                    <p style="margin: 5px 0; line-height: 1.5;"><strong>Client Phone:</strong> {{ $task['phone'] }}</p>
                 </td>
             </tr>
         </table>
@@ -41,35 +41,35 @@
             <tbody>
                 <tr>
                     <td style="padding: 10px; border: 1px solid #ddd;">Service</td>
-                    <td style="padding: 10px; border: 1px solid #ddd;">{{ $service }}</td>
+                    <td style="padding: 10px; border: 1px solid #ddd;">{{ $task['service'] }}</td>
                 </tr>
                 <tr>
                     <td style="padding: 10px; border: 1px solid #ddd;">Package</td>
-                    <td style="padding: 10px; border: 1px solid #ddd;">{{ $package }}</td>
+                    <td style="padding: 10px; border: 1px solid #ddd;">{{ $task['package'] }}</td>
                 </tr>
                 <tr>
                     <td style="padding: 10px; border: 1px solid #ddd;">Total Payment</td>
-                    <td style="padding: 10px; border: 1px solid #ddd;">{{ $total_payment }}</td>
+                    <td style="padding: 10px; border: 1px solid #ddd;">{{ $task['total_payment'] }}</td>
                 </tr>
                 <tr>
                     <td style="padding: 10px; border: 1px solid #ddd;">Initial Payment</td>
-                    <td style="padding: 10px; border: 1px solid #ddd;">{{ $initial_payment }}</td>
+                    <td style="padding: 10px; border: 1px solid #ddd;">{{ $task['initial_payment'] }}</td>
                 </tr>
                 <tr>
                     <td style="padding: 10px; border: 1px solid #ddd;">Remaining Payment</td>
-                    <td style="padding: 10px; border: 1px solid #ddd;">{{ $remaining_payment }}</td>
+                    <td style="padding: 10px; border: 1px solid #ddd;">{{ $task['remaining_payment'] }}</td>
                 </tr>
                 <tr>
                     <td style="padding: 10px; border: 1px solid #ddd;">Payment Status</td>
-                    <td style="padding: 10px; border: 1px solid #ddd;">{{ $payment_status }}</td>
+                    <td style="padding: 10px; border: 1px solid #ddd;">{{ $task['payment_status'] }}</td>
                 </tr>
                 <tr>
                     <td style="padding: 10px; border: 1px solid #ddd;">Start Date</td>
-                    <td style="padding: 10px; border: 1px solid #ddd;">{{ $starting_date }}</td>
+                    <td style="padding: 10px; border: 1px solid #ddd;">{{ $task['starting_date'] }}</td>
                 </tr>
                 <tr>
                     <td style="padding: 10px; border: 1px solid #ddd;">End Date</td>
-                    <td style="padding: 10px; border: 1px solid #ddd;">{{ $ending_date }}</td>
+                    <td style="padding: 10px; border: 1px solid #ddd;">{{ $task['ending_date'] }}</td>
                 </tr>
             </tbody>
         </table>

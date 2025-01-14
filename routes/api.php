@@ -71,6 +71,7 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::get('edit-tasks/{id}', [TasksController::class,'editTasks']);
     Route::get('filttle-tasks/{task}', [TasksController::class,'FilttleTasks']);
     Route::delete('delete-tasks/{id}', [TasksController::class,'deleteTasks']);
+    Route::post('send-task-email', [TasksController::class,'sendTaskEmail']);
 
     // services
     Route::post('store-services', [ServiceController::class,'storeService']);
@@ -83,6 +84,7 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::get('filttle-services/{service}', [ServiceController::class,'filttleByService']);
     Route::get('filttle-services-status/{status}', [ServiceController::class,'filteByServiceStatus']);
     Route::delete('delete-services/{id}', [ServiceController::class,'deleteService']);
+    Route::post('send-service-email', [ServiceController::class,'sendServiceEmail']);
 
 
 

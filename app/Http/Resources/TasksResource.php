@@ -25,6 +25,8 @@ class TasksResource extends JsonResource
             'description' => $this->description ?? "",
             'milestones_name' => $this->milestones ? $this->milestones->name : null,
             'User_name' => $this->User ? $this->User->name : null,
+            'User_email' => $this->User ? $this->User->email : null,
+            'User_position' => $this->User ? $this->User->position : null,
             'created_at' => $this->created_at ? $this->created_at->format('d-m-Y') : "", // Formatting created_at
         ];
     }

@@ -52,6 +52,15 @@
                                         class="invalid-feedback">Your Task Member Name Is Required</span>
                                 </div>
                             </div>
+
+                            <!-- Email field -->
+                            <div class="mb-2">
+                                <label for="businessName" class="form-label text">Email*</label>
+                                <input type="email" class="form-control" v-model="from.email"
+                                    :class="{ 'is-invalid': errors.includes('Your Email Is Required') }"
+                                    id="businessName" placeholder="Email" :value="selectedUserEmail" readonly>
+                            </div>
+
                             <div class="mb-2">
                                 <label for="businessName" class="form-label text">Deadline*</label>
                                 <input type="date" class="form-control" v-model="from.deadline"
@@ -132,6 +141,8 @@ export default {
                 priority: "",
                 status: "",
                 description: "",
+                email: "",
+                position: "",
             },
             errors: [],
             loading: false,
@@ -154,6 +165,7 @@ export default {
                 return;
             }
 
+            this.sendTasksEmail();
             // If no validation errors, proceed with the form submission
             this.loading = true;
 
@@ -182,20 +194,50 @@ export default {
                     }
                 });
                 if (this.$route.params.id) {
-                    this.$router.push('/tasks');
                     setTimeout(() => {
                         toast.success('Your Task Update Successfully');
+                        toast.success('Update Tasks Mail Is Send Successfully');
                     }, 500);
                 } else {
-                    this.$router.push('/tasks');
                     setTimeout(() => {
                         toast.success('Your Task Created Successfully');
+                        toast.success('New Tasks Mail Is Send Successfully');
                     }, 500);
                 }
-
+                this.$router.push('/tasks');
             } catch (error) {
                 console.error("API call error:", error);
                 this.loading = false;
+            }
+        },
+        async sendTasksEmail() {
+            const token = localStorage.getItem('token');
+            try {
+                const formData = new FormData();
+                formData.append('name', this.from.name);
+                formData.append('milestoneId', this.from.milestoneId);
+                formData.append('userId', this.from.userId);
+                formData.append('deadline', this.from.deadline);
+                formData.append('priority', this.from.priority);
+                formData.append('status', this.from.status);
+                formData.append('description', this.from.description);
+                formData.append('email', this.selectedUserEmail);
+                formData.append('userName', this.selectedUserName);  // Pass the name of the user
+                formData.append('position', this.selectedUserPosition);  // Pass the position of the user
+
+                const response = await axios.post('/api/send-task-email', formData, {
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                    }
+                });
+                console.log("Email sent successfully:", response.data.message);
+                this.successMessage = response.data.message;
+                this.errorMessage = '';
+                this.$router.push('/notification');
+            } catch (error) {
+                console.error("Error sending email:", error);
+                this.errorMessage = error.response?.data?.message || 'Failed to send email.';
+                this.successMessage = '';
             }
         },
     },
@@ -203,6 +245,19 @@ export default {
         ...mapState('milestone', ['allMileStone']),
         ...mapState('auth', ['allUser']),
         ...mapState('tasks', ['singleTasks', 'singleTasksLoading']),
+        selectedUserEmail() {
+            const selectedUser = this.allUser.find(user => user.id === this.from.userId);
+            return selectedUser ? selectedUser.email : '';
+        },
+        selectedUserName() {
+            const selectedUser = this.allUser.find(user => user.id === this.from.userId);
+            return selectedUser ? selectedUser.name : '';
+        },
+
+        selectedUserPosition() {
+            const selectedUser = this.allUser.find(user => user.id === this.from.userId);
+            return selectedUser ? selectedUser.position : '';
+        },
     },
     watch: {
         singleTasks(newDetail) {
@@ -214,6 +269,7 @@ export default {
                 this.from.priority = newDetail.priority || '';
                 this.from.status = newDetail.status || '';
                 this.from.description = newDetail.description || '';
+                this.from.email = newDetail.User_email || '';
             }
         },
 

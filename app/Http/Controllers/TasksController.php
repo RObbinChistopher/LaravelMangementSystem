@@ -5,9 +5,38 @@ namespace App\Http\Controllers;
 use App\Http\Resources\TasksResource;
 use App\Models\Tasks;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\SendEmail;
+use App\Mail\TasksMail;
 
 class TasksController extends Controller
 {
+    public function sendTaskEmail(Request $request)
+    {
+        // Get the task data from the request
+        $task = [
+            'name' => $request->input('name'),
+            'milestoneId' => $request->input('milestoneId'),
+            'deadline' => $request->input('deadline'),
+            'userId' => $request->input('userId'),
+            'priority' => $request->input('priority'),
+            'status' => $request->input('status'),
+            'description' => $request->input('description'),
+            'email' => $request->input('email'),  // Dynamic email
+            'position' => $request->input('position'),  // Dynamic position
+            'userName' => $request->input('userName'),  // Dynamic position
+        ];
+    
+        // Get recipient email
+        $recipientEmail = $task['email'];
+    
+        // Send email using a Mailable class
+        Mail::to($recipientEmail)->send(new TasksMail($task));
+    
+        return response()->json(['message' => 'Email sent successfully']);
+    }    
+
+
     public function ShowTasks(Request $request)
     {
         $user = auth()->user();
