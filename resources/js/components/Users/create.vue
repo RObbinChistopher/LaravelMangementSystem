@@ -132,7 +132,9 @@ export default {
             errors: [],
             loading: false,
             showPassword: false,
-            showConfirmPassword: false
+            showConfirmPassword: false,
+            originalFrom: {}, // Store the initial state
+            isFormDirty: false // Track form changes
         };
     },
 
@@ -202,6 +204,11 @@ export default {
                 this.loading = false;
             }
         },
+        checkFormDirty() {
+            if (!this.$route.params.id) {
+                this.isFormDirty = JSON.stringify(this.from) !== JSON.stringify(this.originalFrom);
+            }
+        },
     },
     computed: {
         ...mapState('auth', ['singleUser', 'singleUserLoading']),
@@ -220,15 +227,29 @@ export default {
                 this.from.position = newDetail.position || '';
             }
         },
-
+        'from.name': 'checkFormDirty',
+        'from.email': 'checkFormDirty',
+        'from.role': 'checkFormDirty',
+        'from.position': 'checkFormDirty',
     },
     mounted() {
         if (this.$route.params.id) {
             this.fetchSingleUsers(this.$route.params.id);
         }
 
-    }
-
+    },
+    beforeRouteLeave(to, from, next) {
+        if (!this.$route.params.id || this.isFormDirty) {
+            const answer = window.confirm('You have unsaved changes, are you sure you want to leave?');
+            if (answer) {
+                next();
+            } else {
+                next(false); // Prevent navigation
+            }
+        } else {
+            next(); // Proceed with navigation when no unsaved changes
+        }
+    },
 };
 </script>
 

@@ -241,6 +241,23 @@ const ServiceModule = {
                 commit('SET_ALL_SERVICES_DETAILS_LOADING', false);
             }
         },
+        async fetchShowAllServices({ commit }) {
+            let url = config.apiBaseUrl + `show-all-services`;
+            const token = localStorage.getItem('token');
+            try {
+                commit('SET_SERVICES_LOADING', true)
+                let response = await axios.get(url, {
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                    }
+                });
+                commit('SET_SERVICES', response.data.data);
+                commit('SET_SERVICES_LOADING', false);
+            } catch (error) {
+                console.log('error', error);
+                commit('SET_SERVICES_LOADING', false);
+            }
+        },
     },
 };
 

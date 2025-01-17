@@ -65,6 +65,13 @@
         .page-link {
             color: #99519e !important;
         }
+
+        .flag-input {
+            box-shadow: none !important;
+            height: 40px !important;
+            border: 1px solid #8a8a8a !important;
+            border-radius: 6px !important;
+        }
     </style>
 </head>
 

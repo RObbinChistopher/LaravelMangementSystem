@@ -146,6 +146,8 @@ export default {
             },
             errors: [],
             loading: false,
+            originalFrom: {}, // Store the initial state
+            isFormDirty: false // Track form changes
         };
     },
     methods: {
@@ -240,6 +242,11 @@ export default {
                 this.successMessage = '';
             }
         },
+        checkFormDirty() {
+            if (!this.$route.params.id) {
+                this.isFormDirty = JSON.stringify(this.from) !== JSON.stringify(this.originalFrom);
+            }
+        },
     },
     computed: {
         ...mapState('milestone', ['allMileStone']),
@@ -276,6 +283,14 @@ export default {
                 this.from.email = newDetail.User_email || '';
             }
         },
+        'from.name': 'checkFormDirty',
+        'from.userId': 'checkFormDirty',
+        'from.deadline': 'checkFormDirty',
+        'from.milestoneId': 'checkFormDirty',
+        'from.priority': 'checkFormDirty',
+        'from.status': 'checkFormDirty',
+        'from.description': 'checkFormDirty',
+        'from.email': 'checkFormDirty',
 
     },
 
@@ -285,7 +300,19 @@ export default {
         if (this.$route.params.id) {
             this.fetchSingleTasks(this.$route.params.id)
         }
-    }
+    },
+    beforeRouteLeave(to, from, next) {
+        if (!this.$route.params.id || this.isFormDirty) {
+            const answer = window.confirm('You have unsaved changes, are you sure you want to leave?');
+            if (answer) {
+                next();
+            } else {
+                next(false); // Prevent navigation
+            }
+        } else {
+            next(); // Proceed with navigation when no unsaved changes
+        }
+    },
 }
 </script>
 <style scoped>

@@ -3,7 +3,6 @@
 @section('content')
 <div style="max-width: 900px; margin: 20px auto; padding: 30px; background-color: #ffffff; border-radius: 10px; border: 1px solid #ddd; font-family: Arial, sans-serif; color: #333;">
     <!-- Header Section -->
-    <!-- Header Section -->
     <div style="border-bottom: 2px solid #eee; padding-bottom: 10px; margin-bottom: 20px;">
         <table style="width: 100%; border-collapse: collapse;">
             <tr>
@@ -27,26 +26,44 @@
         </table>
     </div>
 
-
     <!-- Service Details -->
     <div style="margin-bottom: 20px;">
         <h2 style="font-size: 18px; color: #333; padding-bottom: 5px;">Service Details</h2>
         <table style="width: 100%; border-collapse: collapse; margin-top: 10px;">
             <thead>
                 <tr>
-                    <th style="padding: 10px; background-color: #f5f5f5; border: 1px solid #ddd; text-align: left;">Service Field</th>
-                    <th style="padding: 10px; background-color: #f5f5f5; border: 1px solid #ddd; text-align: left;">Service Value</th>
+                    <th style="padding: 10px; background-color: #f5f5f5; border: 1px solid #ddd; text-align: left;">Service Name</th>
+                    <th style="padding: 10px; background-color: #f5f5f5; border: 1px solid #ddd; text-align: left;">Package</th>
+                    <th style="padding: 10px; background-color: #f5f5f5; border: 1px solid #ddd; text-align: left;">Price</th>
+                    <th style="padding: 10px; background-color: #f5f5f5; border: 1px solid #ddd; text-align: left;">Starting Date</th>
+                    <th style="padding: 10px; background-color: #f5f5f5; border: 1px solid #ddd; text-align: left;">Ending Date</th>
                 </tr>
             </thead>
             <tbody>
+                @foreach ($services as $service)
+                    <tr>
+                        <td style="padding: 10px; border: 1px solid #ddd;">{{ $service['name'] }}</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">{{ $service['package'] }}</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">{{ $service['price'] }}$</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">{{ $service['startingDate'] }}</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">{{ $service['endingDate'] }}</td>
+                    </tr>
+                @endforeach
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Payment Details -->
+    <div style="margin-bottom: 20px;">
+        <h2 style="font-size: 18px; color: #333; padding-bottom: 5px;">Payment Details</h2>
+        <table style="width: 100%; border-collapse: collapse; margin-top: 10px;">
+            <thead>
                 <tr>
-                    <td style="padding: 10px; border: 1px solid #ddd;">Service</td>
-                    <td style="padding: 10px; border: 1px solid #ddd;">{{ $service }}</td>
+                    <th style="padding: 10px; background-color: #f5f5f5; border: 1px solid #ddd; text-align: left;">Payment Field</th>
+                    <th style="padding: 10px; background-color: #f5f5f5; border: 1px solid #ddd; text-align: left;">Payment Value</th>
                 </tr>
-                <tr>
-                    <td style="padding: 10px; border: 1px solid #ddd;">Package</td>
-                    <td style="padding: 10px; border: 1px solid #ddd;">{{ $package }}</td>
-                </tr>
+            </thead>
+            <tbody>
                 <tr>
                     <td style="padding: 10px; border: 1px solid #ddd;">Total Payment</td>
                     <td style="padding: 10px; border: 1px solid #ddd;">{{ $total_payment }}$</td>
@@ -62,14 +79,6 @@
                 <tr>
                     <td style="padding: 10px; border: 1px solid #ddd;">Payment Status</td>
                     <td style="padding: 10px; border: 1px solid #ddd;">{{ $payment_status }}</td>
-                </tr>
-                <tr>
-                    <td style="padding: 10px; border: 1px solid #ddd;">Start Date</td>
-                    <td style="padding: 10px; border: 1px solid #ddd;">{{ $starting_date }}</td>
-                </tr>
-                <tr>
-                    <td style="padding: 10px; border: 1px solid #ddd;">End Date</td>
-                    <td style="padding: 10px; border: 1px solid #ddd;">{{ $ending_date }}</td>
                 </tr>
             </tbody>
         </table>

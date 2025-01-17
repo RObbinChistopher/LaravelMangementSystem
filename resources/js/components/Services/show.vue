@@ -6,7 +6,7 @@
             </div>
             <div class="col-md-8 col-12 add-bth-filter">
                 <div class="btn-text m-0 add-new-cat " style="display: flex; justify-content: flex-end; gap: 15px;">
-                    <div class="service-detail text" v-if="currentSerivce">
+                    <!-- <div class="service-detail text" v-if="currentSerivce">
                         Services Filtered By: {{ getServiceDisplayName(currentSerivce) }}
                     </div>
                     <div class="btn-group service-filtte">
@@ -18,7 +18,7 @@
                             <li><a class="dropdown-item text2" href="#" v-for="item in allserviceDetails"
                                     @click="handleServiceChange(item)" :value="item.id">{{ item.name }}</a></li>
                         </ul>
-                    </div>
+                    </div> -->
 
                     <router-link to="service" class="import2 add-cc hover-cc m-0">Service</router-link>
                     <router-link to="/create-invoice" class="import2 add-cc hover-cc">Add New</router-link>
@@ -53,7 +53,7 @@
                 <div class="col-md-6 col-12 right-side-search mb-2">
                     <div class="search-input position-relative">
                         <input type="text" class="form-control"
-                            placeholder="Search by Client Name or Email, Package, Srevices" v-model="searchQuery"
+                            placeholder="Search by Client Name or Email" v-model="searchQuery"
                             @input="debouncedAreaSearchWord" />
                         <i class="fa fa-search position-absolute search-icon"></i>
                     </div>
@@ -76,11 +76,10 @@
                                 <th scope="col">Email</th>
                                 <th scope="col">Services</th>
                                 <th scope="col">Package</th>
+                                <th scope="col">Status</th>
                                 <th scope="col">Total Payment</th>
                                 <th scope="col">Initial Payment</th>
-                                <th scope="col">Remaining Payment</th>
-                                <th scope="col">Starting Date</th>
-                                <th scope="col">Ending Date</th>
+                                <th scope="col">Remaining Payment</th>  
                                 <th scope="col">Action</th>
                             </tr>
                         </thead>
@@ -89,13 +88,12 @@
                                 <th scope="row">{{ index + 1 }}</th>
                                 <td class="text2">{{ item.client_name }}</td>
                                 <td class="text2">{{ item.email }}</td>
-                                <td class="text2">{{ item.service_name }}</td>
-                                <td class="text2">{{ item.package }}</td>
+                                <td class="text2" style="width: 20%;">{{ item['services'][0]['name'] }}</td>
+                                <td class="text2">{{ item['services'][0]['package'] }}</td>
+                                <td class="text2"><span class="payment_status">{{ item.payment_status }}</span></td>
                                 <td class="text2">{{ item.total_payment }}</td>
                                 <td class="text2">{{ item.initial_payment }}</td>
                                 <td class="text2">{{ item.remaining_payment }}</td>
-                                <td class="text2">{{ item.starting_date }}</td>
-                                <td class="text2">{{ item.ending_date }}</td>
                                 <td class="text2 d-flex gap-0">
                                     <router-link :to="{ name: 'invoice', params: { id: item.id } }">
                                         <button class="import2 add-cc btn-cc-dd hover-cc">
@@ -251,6 +249,14 @@ export default {
 </script>
 
 <style scoped>
+.payment_status {
+    background-color: #99519e;
+    color: white;
+    padding: 3px 13px;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
 .service-detail {
     background: #e9edf1;
     padding: 4px 10px;

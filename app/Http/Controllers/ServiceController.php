@@ -18,7 +18,6 @@ class ServiceController extends Controller
     use ImageUploadTrait;
     public function sendServiceEmail(Request $request)
     {
-        // Get the task data from the request
         $task = $request->only([
             'client_name',
             'email',
@@ -31,6 +30,7 @@ class ServiceController extends Controller
             'payment_status',
             'starting_date',
             'ending_date',
+            'services',
         ]);
 
 
@@ -42,16 +42,21 @@ class ServiceController extends Controller
 
         return response()->json(['message' => 'Email sent successfully']);
     }
-
     public function storeService(Request $request)
     {
         $service = new Service();
         $invoice = $this->Uploadimage($request, 'invoice', 'invoice');
         $service->client_name = $request->client_name;
+        $service->client_last_name = $request->client_last_name;
         $service->email = $request->email;
         $service->phone = $request->phone;
-        $service->service = $request->service;
-        $service->package = $request->package;
+        $services = json_decode($request->service, true);
+        if (json_last_error() !== JSON_ERROR_NONE) {
+            return response()->json(['error' => 'Invalid service data format'], 400);
+        }
+
+        $service->service = json_encode($services);
+        $service->service_tax = $request->service_tax;
         $service->payment_status = $request->payment_status;
         $service->invoice = $invoice;
         $service->total_payment = $request->total_payment;
@@ -63,33 +68,38 @@ class ServiceController extends Controller
             $startingDate = Carbon::parse($request->starting_date);
         }
         $service->starting_date = $startingDate->format('Y-m-d');
-        switch ($request->package) {
-            case '1week':
-                $endingDate = $startingDate->addWeek();
-                break;
-            case '3week':
-                $endingDate = $startingDate->addWeeks(3);
-                break;
-            case '1month':
-                $endingDate = $startingDate->addMonth();
-                break;
-            case '3month':
-                $endingDate = $startingDate->addMonths(3);
-                break;
-            case '6month':
-                $endingDate = $startingDate->addMonths(6);
-                break;
-            case '1year':
-                $endingDate = $startingDate->addYear();
-                break;
-            default:
-                return response()->json(['error' => 'Invalid package type'], 400);
+        foreach ($services as $serviceData) {
+            $package = $serviceData['package'];
+            switch ($package) {
+                case '1week':
+                    $endingDate = $startingDate->addWeek();
+                    break;
+                case '3week':
+                    $endingDate = $startingDate->addWeeks(3);
+                    break;
+                case '1month':
+                    $endingDate = $startingDate->addMonth();
+                    break;
+                case '3month':
+                    $endingDate = $startingDate->addMonths(3);
+                    break;
+                case '6month':
+                    $endingDate = $startingDate->addMonths(6);
+                    break;
+                case '1year':
+                    $endingDate = $startingDate->addYear();
+                    break;
+                default:
+                    return response()->json(['error' => 'Invalid package type'], 400);
+            }
+            $formattedEndingDate = $endingDate->format('Y-m-d');
+            $service->ending_date = $formattedEndingDate;
         }
-        $formattedEndingDate = $endingDate->format('Y-m-d');
-        $service->ending_date = $formattedEndingDate;
         $service->save();
         return response()->json(['success' => 'Service created successfully']);
     }
+
+
 
     public function showService()
     {
@@ -104,60 +114,61 @@ class ServiceController extends Controller
     public function updateService(Request $request, string $id)
     {
         $service = Service::findOrFail($id);
-
-        // Check if a new invoice is uploaded
-        $invoice = $service->invoice; // Default to the existing invoice
+        $invoice = $service->invoice;
         if ($request->hasFile('invoice')) {
             $invoice = $this->Updateimage($request, 'invoice', 'invoice', $service->invoice);
         }
-
-        // Update service details
         $service->client_name = $request->client_name;
+        $service->client_last_name = $request->client_last_name;
         $service->email = $request->email;
         $service->phone = $request->phone;
-        $service->service = $request->service;
-        $service->package = $request->package;
+        $services = json_decode($request->service, true);
+        if (json_last_error() !== JSON_ERROR_NONE) {
+            return response()->json(['error' => 'Invalid service data format'], 400);
+        }
+        $service->service = json_encode($services);
+
+        $service->service_tax = $request->service_tax;
         $service->payment_status = $request->payment_status;
-        $service->invoice = $invoice; // Set the invoice value
+        $service->invoice = $invoice;
         $service->total_payment = $request->total_payment;
         $service->initial_payment = $request->initial_payment;
         $service->remaining_payment = $request->remaining_payment;
         $service->description = $request->description;
-
-        // Handle starting and ending dates
         $startingDate = Carbon::now();
         if ($request->has('starting_date') && $request->starting_date) {
             $startingDate = Carbon::parse($request->starting_date);
         }
         $service->starting_date = $startingDate->format('Y-m-d');
-
-        switch ($request->package) {
-            case '1week':
-                $endingDate = $startingDate->addWeek();
-                break;
-            case '3week':
-                $endingDate = $startingDate->addWeeks(3);
-                break;
-            case '1month':
-                $endingDate = $startingDate->addMonth();
-                break;
-            case '3month':
-                $endingDate = $startingDate->addMonths(3);
-                break;
-            case '6month':
-                $endingDate = $startingDate->addMonths(6);
-                break;
-            case '1year':
-                $endingDate = $startingDate->addYear();
-                break;
-            default:
-                return response()->json(['error' => 'Invalid package type'], 400);
+        foreach ($services as $serviceData) {
+            $package = $serviceData['package'];
+            switch ($package) {
+                case '1week':
+                    $endingDate = $startingDate->addWeek();
+                    break;
+                case '3week':
+                    $endingDate = $startingDate->addWeeks(3);
+                    break;
+                case '1month':
+                    $endingDate = $startingDate->addMonth();
+                    break;
+                case '3month':
+                    $endingDate = $startingDate->addMonths(3);
+                    break;
+                case '6month':
+                    $endingDate = $startingDate->addMonths(6);
+                    break;
+                case '1year':
+                    $endingDate = $startingDate->addYear();
+                    break;
+                default:
+                    return response()->json(['error' => 'Invalid package type'], 400);
+            }
+            $formattedEndingDate = $endingDate->format('Y-m-d');
+            $service->ending_date = $formattedEndingDate;
         }
-
-        $service->ending_date = $endingDate->format('Y-m-d');
         $service->save();
-
-        return response()->json(['success' => 'Service updated successfully']);
+        return response()->json(['success' => 'Service Update successfully']);
     }
     public function deleteService(string $id)
     {
@@ -167,18 +178,21 @@ class ServiceController extends Controller
     }
     public function generatePDF(Request $request)
     {
+        // No need to decode `services` if it's already an array
+        $services = $request->services;
+
+        // Build the data array
         $data = [
             'client_name' => $request->client_name,
             'email' => $request->email,
             'phone' => $request->phone,
-            'service' => $request->service,
-            'package' => $request->package,
             'total_payment' => $request->total_payment,
             'initial_payment' => $request->initial_payment,
             'remaining_payment' => $request->remaining_payment,
             'payment_status' => $request->payment_status,
             'starting_date' => $request->starting_date,
-            'ending_date' => $request->ending_date
+            'ending_date' => $request->ending_date,
+            'services' => $services, // Pass `services` directly
         ];
 
         // Load a Blade view to generate the PDF
@@ -192,7 +206,6 @@ class ServiceController extends Controller
             'Content-Disposition' => 'attachment; filename="invoice.pdf"',
         ]);
     }
-
     public function filttleByService(string $service)
     {
         $services = Service::where('service', $service)->paginate(10);
@@ -256,5 +269,11 @@ class ServiceController extends Controller
             ->get();
 
         return ServiceResource::collection($services);
+    }
+
+    public function AllshowService()
+    {
+        $service = Service::all();
+        return ServiceResource::collection($service);
     }
 }

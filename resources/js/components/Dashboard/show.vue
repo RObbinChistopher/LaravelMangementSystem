@@ -2,14 +2,18 @@
     <div class="container">
         <div class="main-container">
             <div class="row">
-                <div class="col-md-12" v-for="item in service">
-                    <div class="alert alert-danger" role="alert">
-                        <b>{{ item.client_name }}</b> chose a <b>{{ item.package }}</b> <b>{{ item.service }}</b>
-                        service for <b>${{
-                            item.total_payment }}</b>, paying <b>${{ item.initial_payment }}</b> initially and the
-                        remaining
-                        <b>${{ item.remaining_payment }}</b> due on <b>{{ item.starting_date }}</b>, with the service
-                        ending date on <b>{{ item.ending_date }}</b>.
+                <div class="col-md-12" v-for="item in processedServices" :key="item.id">
+                    <div class="alert alert-danger" role="alert" v-if="item.showNotification">
+                        <b>{{ item.client_name }} {{ item.client_last_name }}</b> has a <b>{{ item.package }}</b> <b>{{ item.services[0]?.name ||
+                            'Service' }}</b>
+                        service with <b>${{ item.remaining_payment }}</b> payment due. The service started on
+                        <b>{{ item.starting_date }}</b> and ends on <b>{{ item.ending_date }}</b>.
+                        <span v-if="item.daysLeft > 0">
+                            <b>{{ item.daysLeft }}</b> day<span v-if="item.daysLeft > 1">s</span> left until the end.
+                        </span>
+                        <span v-else>
+                            <b>Past due!</b>
+                        </span>
                     </div>
                 </div>
             </div>
@@ -30,14 +34,16 @@
                                 </div>
 
                             </div>
-                            <div class="col-md-6 show-content-card-right show-content-left-card common-class" style="padding-right: 14px;">
+                            <div class="col-md-6 show-content-card-right show-content-left-card common-class"
+                                style="padding-right: 14px;">
                                 <div class="dashboard-card">
                                     <div class="d-flex justify-content-between align-items-baseline">
                                         <p class="text">Progress Milestones</p>
                                         <i class="fas fa-project-diagram text"></i>
                                     </div>
                                     <p class="text mb-2"
-                                        v-if="dashboard && dashboard.milestones && dashboard.milestones.progress !== undefined">{{
+                                        v-if="dashboard && dashboard.milestones && dashboard.milestones.progress !== undefined">
+                                        {{
                                             dashboard.milestones.progress || '0' }}</p>
                                 </div>
                             </div>
@@ -90,6 +96,11 @@ export default defineComponent({
     name: 'DoughnutGraph',
     components: {
         DoughnutChart,
+    },
+    data() {
+        return {
+            processedServices: [],
+        };
     },
     setup() {
         const selectedProject = reactive({
@@ -166,16 +177,66 @@ export default defineComponent({
         };
     },
     methods: {
-        ...mapActions('service', ['fetchMessageOnEndPackage']),
+        ...mapActions('service', ['fetchShowAllServices']),
         ...mapActions('dashboard', ['fetchDashboardCount']),
+        getNotificationDays(packageType) {
+            switch (packageType) {
+                case '1week':
+                    return 3;
+                case '3week':
+                case '1month':
+                case '3month':
+                case '6month':
+                case '1year':
+                    return 7;
+                default:
+                    return 0;
+            }
+        },
     },
     computed: {
         ...mapState('service', ['service', 'servicesLoading']),
         ...mapState('dashboard', ['dashboard', 'dashboardLoading']),
     },
+    data() {
+        return {
+            processedServices: [],
+        };
+    },
+    watch: {
+        service: {
+            handler: async function (newServices) {
+                this.processedServices = await Promise.all(
+                    newServices.map(async (item) => {
+                        const currentDate = new Date();
+                        const serviceDetails = item.services?.[0] || {};
+                        const startDate = new Date(serviceDetails.startingDate || item.starting_date);
+                        const endDate = new Date(serviceDetails.endingDate || item.ending_date);
+                        const daysLeft = Math.ceil((endDate - currentDate) / (1000 * 60 * 60 * 24));
+                        const notificationDays = await this.getNotificationDays(
+                            serviceDetails.package || item.package
+                        );
+                        const showNotification =
+                            item.payment_status === 'pending' &&
+                            daysLeft <= notificationDays &&
+                            daysLeft >= 0;
+                        return {
+                            ...item,
+                            starting_date: startDate.toISOString().split('T')[0],
+                            ending_date: endDate.toISOString().split('T')[0],
+                            daysLeft,
+                            showNotification,
+                        };
+                    })
+                );
+            },
+            immediate: true,
+        },
+    },
+
     mounted() {
-        this.fetchMessageOnEndPackage();
         this.fetchDashboardCount();
+        this.fetchShowAllServices();
     },
 });
 </script>

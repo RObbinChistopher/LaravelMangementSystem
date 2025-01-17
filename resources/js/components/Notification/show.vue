@@ -7,7 +7,7 @@
             <div class="col-md-8 col-6">
                 <div class="btn-text m-0 add-new-cat" v-if="profile.role !== 'Team-Member'"
                     style="display: flex; justify-content: flex-end;">
-                    <router-link to="/create-notification" class="import2 add-cc hover-cc">Add New</router-link>
+                    <router-link to="/create-notification" class="import2 add-cc hover-cc">Add  &nbsp;New</router-link>
                 </div>
             </div>
         </div>
@@ -22,11 +22,6 @@
 
                 </div>
                 <div class="col-md-6 col-12 right-side-search mb-2">
-                    <div class="search-input position-relative">
-                        <input type="text" class="form-control" placeholder="Search By Email And Subject Name" v-model="searchQuery"
-                            @input="debouncedAreaSearchWord" />
-                        <i class="fa fa-search position-absolute search-icon"></i>
-                    </div>
                 </div>
             </div>
             <hr style="margin-top: 0 !important;">

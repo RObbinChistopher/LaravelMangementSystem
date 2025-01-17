@@ -105,9 +105,9 @@ export default {
                 status: "",
                 description: "" // Added confirmPassword field
             },
-            originalFrom: {}, // Store the initial state
             errors: [],
             loading: false,
+            originalFrom: {}, // Store the initial state
             isFormDirty: false // Track form changes
         };
     },

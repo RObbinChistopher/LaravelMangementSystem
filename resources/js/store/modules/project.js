@@ -9,6 +9,7 @@ const projectModule = {
             projectLoading: false,
             singleProject: [],
             singleProjectLoading: false,
+            allProject: false,
         }
     },
     mutations: {
@@ -26,10 +27,27 @@ const projectModule = {
         },
         SET_SINGLE_PROJECT_LOADING(state, data) {
             state.singleProjectLoading = data
-        }
+        },
+        SET_ALL_PROJECT(state, data) {
+            state.allProject = data
+        },
     },
 
     actions: {
+        async fetchGetAllProjects({ commit }) {
+            let url = config.apiBaseUrl + `get-all-porjects`;
+            const token = localStorage.getItem('token');
+            try {
+                let response = await axios.get(url, {
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                    }
+                });
+                commit('SET_ALL_PROJECT', response.data.data);
+            } catch (error) {
+                console.log('error', error)
+            }
+        },
         async fetchAllProjects({ commit }, page_number) {
             let url = config.apiBaseUrl + `projects?page=${page_number}`;
             const token = localStorage.getItem('token');
@@ -48,7 +66,7 @@ const projectModule = {
                 commit('SET_PROJECT_LOADING', false)
             }
         },
-        async fetchFilterProjects({ commit }, {percentage,page_number}) {
+        async fetchFilterProjects({ commit }, { percentage, page_number }) {
             let url = config.apiBaseUrl + `filter-percentage/${percentage}?page=${page_number}`;
             const token = localStorage.getItem('token');
             try {

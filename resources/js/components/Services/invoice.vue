@@ -43,50 +43,70 @@
 
 
                 <div class="service-details">
-                    <h2>Service Details</h2>
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Service Field</th>
-                                <th>Service Value</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>Service</td>
-                                <td>{{ singleService.service_name }}</td>
-                            </tr>
-                            <tr>
-                                <td>Package</td>
-                                <td>{{ singleService.package }}</td>
-                            </tr>
-                            <tr>
-                                <td>Total Payment</td>
-                                <td>{{ singleService.total_payment }}$</td>
-                            </tr>
-                            <tr>
-                                <td>Initial Payment</td>
-                                <td>{{ singleService.initial_payment }}$</td>
-                            </tr>
-                            <tr>
-                                <td>Remaining Payment</td>
-                                <td>{{ singleService.remaining_payment }}$</td>
-                            </tr>
-                            <tr>
-                                <td>Payment Status</td>
-                                <td>{{ singleService.payment_status || 'Pending' }}</td>
-                            </tr>
-                            <tr>
-                                <td>Start Date</td>
-                                <td>{{ singleService.starting_date }}</td>
-                            </tr>
-                            <tr>
-                                <td>End Date</td>
-                                <td>{{ singleService.ending_date }}</td>
-                            </tr>
-                        </tbody>
-                    </table>
+                    <h3>Service Details</h3>
+                    <div style="margin-bottom: 20px;">
+                        <table style="width: 100%; border-collapse: collapse; margin-top: 10px;">
+                            <thead>
+                                <tr>
+                                    <th
+                                        style="padding: 10px; background-color: #f5f5f5; border: 1px solid #ddd; text-align: left;">
+                                        Service Name</th>
+                                    <th
+                                        style="padding: 10px; background-color: #f5f5f5; border: 1px solid #ddd; text-align: left;">
+                                        Package</th>
+                                    <th
+                                        style="padding: 10px; background-color: #f5f5f5; border: 1px solid #ddd; text-align: left;">
+                                        Price</th>
+                                    <th
+                                        style="padding: 10px; background-color: #f5f5f5; border: 1px solid #ddd; text-align: left;">
+                                        Start Date</th>
+                                    <th
+                                        style="padding: 10px; background-color: #f5f5f5; border: 1px solid #ddd; text-align: left;">
+                                        End Date</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr v-for="item in parsedServices" :key="item.selectedService">
+                                    <td style="padding: 10px; border: 1px solid #ddd;">{{ item.name }}</td>
+                                    <td style="padding: 10px; border: 1px solid #ddd;">{{ item.package }}</td>
+                                    <td style="padding: 10px; border: 1px solid #ddd;">{{ item.price }}$</td>
+                                    <td style="padding: 10px; border: 1px solid #ddd;">{{ item.startDate }}</td>
+                                    <td style="padding: 10px; border: 1px solid #ddd;">{{ item.endDate }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div style="margin-bottom: 20px;">
+                        <h3>Payment Details</h3>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Payment Field</th>
+                                    <th>Payment Value</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Total Payment</td>
+                                    <td>{{ singleService.total_payment }}$</td>
+                                </tr>
+                                <tr>
+                                    <td>Initial Payment</td>
+                                    <td>{{ singleService.initial_payment }}$</td>
+                                </tr>
+                                <tr>
+                                    <td>Remaining Payment</td>
+                                    <td>{{ singleService.remaining_payment }}$</td>
+                                </tr>
+                                <tr>
+                                    <td>Payment Status</td>
+                                    <td>{{ singleService.payment_status || 'Pending' }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
+
 
                 <div class="description">
                     <div class="text-center">Thank you for your business!</div>
@@ -133,7 +153,7 @@ export default {
                     client_name: this.singleService.client_name,
                     email: this.singleService.email,
                     phone: this.singleService.phone,
-                    service: this.singleService.service_name,
+                    services: this.singleService.services,
                     package: this.singleService.package,
                     total_payment: this.singleService.total_payment,
                     initial_payment: this.singleService.initial_payment,
@@ -156,7 +176,7 @@ export default {
             } catch (error) {
                 console.error("Error downloading invoice:", error);
             } finally {
-                this.loading = false; // Stop loading
+                this.loading = false;
             }
         },
         async sendTasksEmail() {
@@ -168,7 +188,7 @@ export default {
                     client_name: this.singleService.client_name,
                     email: this.singleService.email,
                     phone: this.singleService.phone,
-                    service: this.singleService.service_name,
+                    services: this.singleService.services,
                     package: this.singleService.package,
                     total_payment: this.singleService.total_payment,
                     initial_payment: this.singleService.initial_payment,
@@ -194,6 +214,17 @@ export default {
     },
     computed: {
         ...mapState('service', ['singleService', 'singleServicesLoading']),
+        parsedServices() {
+            try {
+                return JSON.parse(this.singleService.service).map(service => ({
+                    ...service,
+                    name: this.singleService.services.find(s => s.package === service.package)?.name || '',
+                }));
+            } catch (error) {
+                console.error("Error parsing services:", error);
+                return [];
+            }
+        },
     },
 
     mounted() {

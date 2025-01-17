@@ -110,6 +110,8 @@ export default {
             },
             errors: [],
             loading: false,
+            originalFrom: {}, // Store the initial state
+            isFormDirty: false // Track form changes
         };
     },
     methods: {
@@ -168,6 +170,11 @@ export default {
                 this.loading = false;
             }
         },
+        checkFormDirty() {
+            if (!this.$route.params.id) {
+                this.isFormDirty = JSON.stringify(this.from) !== JSON.stringify(this.originalFrom);
+            }
+        },
     },
 
     computed: {
@@ -183,7 +190,12 @@ export default {
                 this.from.description = newDetail.description || '';
             }
         },
-
+        // Track form changes and update the dirty status
+        'from.name': 'checkFormDirty',
+        'from.clientName': 'checkFormDirty',
+        'from.deadline': 'checkFormDirty',
+        'from.percentage': 'checkFormDirty',
+        'from.description': 'checkFormDirty',
     },
 
     mounted() {
@@ -191,7 +203,19 @@ export default {
             this.fetchSingleProjects(this.$route.params.id)
         }
 
-    }
+    },
+    beforeRouteLeave(to, from, next) {
+        if (!this.$route.params.id || this.isFormDirty) {
+            const answer = window.confirm('You have unsaved changes, are you sure you want to leave?');
+            if (answer) {
+                next();
+            } else {
+                next(false); // Prevent navigation
+            }
+        } else {
+            next(); // Proceed with navigation when no unsaved changes
+        }
+    },
 }
 </script>
 <style scoped>

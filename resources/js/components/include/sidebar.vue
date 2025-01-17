@@ -14,17 +14,26 @@
                     :class="{ 'nav-link link-dark text': true, 'active': isActive('/users') || isActive('/create-users') || isActive('/edit-users') }"
                     active-class="active">
                     <i class="fa-solid fa-user common-icon"></i>
-                    Team Member
+                    Users
                 </router-link>
             </li>
             <li class="nav-item" v-if="profile.role === 'Admin'">
                 <router-link to="/in-voice" aria-current="page" :class="{
                     'nav-link link-dark text': true, 'active': isActive('/in-voice') ||
-                        isActive('/create-invoice') || isActive('/edit-invoice') || isActive('/download-invoice') || 
+                        isActive('/create-invoice') || isActive('/edit-invoice') || isActive('/download-invoice') ||
                         isActive('/service') || isActive('/create-service') || isActive('/edit-service')
                 }" active-class="active">
                     <i class="fa-solid fa-file-invoice common-icon"></i>
                     Invoice
+                </router-link>
+            </li>
+            <li class="nav-item" v-if="profile.role === 'Admin'">
+                <router-link to="/team-name" aria-current="page"
+                    :class="{ 'nav-link link-dark text': true, 'active': isActive('/team-name') || isActive('/team-create') || isActive('/team-edit') 
+                    || isActive('/team-members') || isActive('/team-members-create') || isActive('/team-members-edit') }"
+                    active-class="active">
+                    <i class="fa-solid fa-users common-icon"></i>
+                    Teams
                 </router-link>
             </li>
             <li>

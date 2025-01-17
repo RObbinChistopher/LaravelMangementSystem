@@ -78,7 +78,8 @@ export default {
             },
             successMessage: '',
             errorMessage: '',
-
+            originalFrom: {}, // Store the initial state
+            isFormDirty: false // Track form changes
         };
     },
     methods: {
@@ -118,6 +119,12 @@ export default {
                 this.successMessage = '';
             }
         },
+        
+        checkFormDirty() {
+            if (!this.$route.params.id) {
+                this.isFormDirty = JSON.stringify(this.from) !== JSON.stringify(this.originalFrom);
+            }
+        },
     },
     computed: {
         ...mapState('auth', ['allUser']),
@@ -132,6 +139,11 @@ export default {
                 this.form.userId = newDetail.userId || '';
             }
         },
+          // Track form changes and update the dirty status
+          'form.email': 'checkFormDirty',
+        'form.subject': 'checkFormDirty',
+        'form.message': 'checkFormDirty',
+        'form.userId': 'checkFormDirty',
 
     },
     mounted() {
@@ -139,7 +151,19 @@ export default {
         if (this.$route.params.id) {
             this.fetchSingleNotification(this.$route.params.id);
         }
-    }
+    },
+    beforeRouteLeave(to, from, next) {
+        if (!this.$route.params.id || this.isFormDirty) {
+            const answer = window.confirm('You have unsaved changes, are you sure you want to leave?');
+            if (answer) {
+                next();
+            } else {
+                next(false); // Prevent navigation
+            }
+        } else {
+            next(); // Proceed with navigation when no unsaved changes
+        }
+    },
 }
 </script>
 <style scoped>

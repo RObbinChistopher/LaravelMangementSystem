@@ -8,6 +8,12 @@ use Illuminate\Http\Request;
 
 class ProjectsController extends Controller
 {
+    public function getAllPorjects()
+    {
+        $project = Project::all();
+
+        return ProjectResource::collection($project);
+    }
     public function allPorjects()
     {
         $project = Project::paginate(10);

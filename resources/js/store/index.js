@@ -7,6 +7,7 @@ import tasks from './modules/task'
 import service from './modules/service'
 import notification from './modules/notification'
 import dashboard from './modules/home'
+import team from './modules/team'
 const debug = process.env.NODE_ENV !== 'production'
 
 export default createStore({
@@ -19,6 +20,7 @@ export default createStore({
         service,
         notification,
         dashboard ,
+        team ,
     },
     strict: debug,
     plugins: debug ? [createLogger()] : []

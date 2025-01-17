@@ -81,6 +81,8 @@ export default {
             errors: [],
             loading: false,
             invoiceUrl: null,
+            originalFrom: {}, // Store the initial state
+            isFormDirty: false // Track form changes
         };
     },
     methods: {
@@ -135,6 +137,11 @@ export default {
             }
         },
 
+        // Compare form data with the original data
+        checkFormDirty() {
+            this.isFormDirty = JSON.stringify(this.from) !== JSON.stringify(this.originalFrom);
+        },
+
     },
     watch: {
         singleServiceDetails(newDetail) {
@@ -144,16 +151,32 @@ export default {
                 this.from.tax = newDetail.tax || '';
             }
         },
+        // Track form changes and update the dirty status
+        'from.name': 'checkFormDirty',
+        'from.price': 'checkFormDirty',
+        'from.tax': 'checkFormDirty',
     },
     computed: {
         ...mapState('service', ['singleServiceDetails', 'singleServiceDetailsLoading'])
     },
 
-    mounted(){
-        if(this.$route.params.id){
+    mounted() {
+        if (this.$route.params.id) {
             this.fetchSingleServicesDetails(this.$route.params.id)
         }
-    }   
+    },
+    beforeRouteLeave(to, from, next) {
+        if (this.isFormDirty) {
+            const answer = window.confirm('You have unsaved changes, are you sure you want to leave?');
+            if (answer) {
+                next();
+            } else {
+                next(false); // Prevent navigation
+            }
+        } else {
+            next(); // Proceed with navigation
+        }
+    },
 }
 </script>
 <style scoped>
