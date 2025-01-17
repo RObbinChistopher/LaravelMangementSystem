@@ -5,7 +5,8 @@
                 <h3 class="heading">All Projects</h3>
             </div>
             <div class="col-md-8 col-6">
-                <div class="btn-text m-0 add-new-cat " style="display: flex; justify-content: flex-end;" v-if="profile.role !== 'Team-Member'">
+                <div class="btn-text m-0 add-new-cat " style="display: flex; justify-content: flex-end;"
+                    v-if="profile.role !== 'Team-Member'">
                     <router-link to="/create-project" class="import2 add-cc hover-cc">Add New</router-link>
                 </div>
             </div>
@@ -25,19 +26,19 @@
                         <p class="text2 mr-text filter-item" data-filter="deliveries"
                             @click="handlePercentageChange(100)" :class="{ active: activePercentage === 100 }"
                             style="cursor: pointer;">
-                            Brainstorming
+                            Completed
                         </p>
                         <p class="text2 mr-text filter-item" data-filter="deliveries"
-                            @click="handlePercentageChange(70)" :class="{ active: activePercentage === 70 }"
+                            @click="handlePercentageChange(30)" :class="{ active: activePercentage === 30 }"
                             style="cursor: pointer;">Planning
                         </p>
                         <p class="text2 mr-text filter-item" data-filter="deliveries"
-                            @click="handlePercentageChange(50)" :class="{ active: activePercentage === 50 }"
+                            @click="handlePercentageChange(70)" :class="{ active: activePercentage === 70 }"
                             style="cursor: pointer;">
-                            Progress
+                            InProgress
                         </p>
                         <p class="text2 mr-text filter-item" data-filter="deliveries"
-                            @click="handlePercentageChange(10)" :class="{ active: activePercentage === 10 }"
+                            @click="handlePercentageChange(90)" :class="{ active: activePercentage === 90 }"
                             style="cursor: pointer;">
                             Testing
                         </p>
@@ -84,11 +85,11 @@
                                         v-model="item.percentage" @change="updateProjectPecentage(item)"
                                         :disabled="profile.role === 'Team-Member'">
                                         <option value="" class="text2">Select a Status</option>
-                                        <option value="100" class="text2">Brainstorming &nbsp; 100%</option>
-                                        <option value="70" class="text2">Planning &nbsp; 70%</option>
-                                        <option value="50" class="text2">In Progress &nbsp; 50%</option>
-                                        <option value="10" class="text2">Testing &nbsp; 10%</option>
-                                        <option value="0" class="text2">Finalize &nbsp; 0%</option>
+                                        <option value="100" class="text2">Completing &nbsp; 100%</option>
+                                        <option value="90" class="text2">Testing &nbsp; 90%</option>
+                                        <option value="70" class="text2">In Progress &nbsp; 70%</option>
+                                        <option value="30" class="text2">Planning &nbsp; 30%</option>
+                                        <option value="0" class="text2">Project Initiated &nbsp; 0%</option>
                                     </select>
                                 </td>
                                 <td class="text2">{{ item.created_at }}</td>
@@ -248,26 +249,36 @@ export default {
 
 <style scoped>
 .status-filter {
-    overflow-x: auto; /* Enables horizontal scrolling */
-    white-space: nowrap; /* Prevents items from wrapping to the next line */
-    display: flex; /* Keeps items aligned in a row */
-    gap: 10px; /* Optional: Adds spacing between items */
-    scrollbar-width: thin; /* Optional: Makes the scrollbar thinner (Firefox) */
+    overflow-x: auto;
+    /* Enables horizontal scrolling */
+    white-space: nowrap;
+    /* Prevents items from wrapping to the next line */
+    display: flex;
+    /* Keeps items aligned in a row */
+    gap: 10px;
+    /* Optional: Adds spacing between items */
+    scrollbar-width: thin;
+    /* Optional: Makes the scrollbar thinner (Firefox) */
     width: 100%;
 }
 
 .status-filter::-webkit-scrollbar {
-    height: 8px; /* Optional: Adjust scrollbar height */
+    height: 8px;
+    /* Optional: Adjust scrollbar height */
 }
 
 .status-filter::-webkit-scrollbar-thumb {
-    background-color: #ccc; /* Optional: Style scrollbar thumb */
-    border-radius: 4px; /* Optional: Round scrollbar thumb edges */
+    background-color: #ccc;
+    /* Optional: Style scrollbar thumb */
+    border-radius: 4px;
+    /* Optional: Round scrollbar thumb edges */
 }
 
 .status-filter::-webkit-scrollbar-track {
-    background-color: #f1f1f1; /* Optional: Style scrollbar track */
+    background-color: #f1f1f1;
+    /* Optional: Style scrollbar track */
 }
+
 .extra-class-container {
     padding: 0 0 0 15px;
 }

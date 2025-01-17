@@ -80,9 +80,9 @@
                                     <select class="form-control form-select" id="licenseType" v-model="from.priority"
                                         :class="{ 'is-invalid': errors.includes('Your Priority Selection Is Required') }">
                                         <option value="" class="text2">Select a Priority</option>
-                                        <option value="urgent">Urgent Priority</option>
-                                        <option value="medium">Medium Priority</option>
-                                        <option value="lower">Lower Priority</option>
+                                        <option value="urgent">Urgent-Priority</option>
+                                        <option value="medium">Medium-Priority</option>
+                                        <option value="lower">Lower-Priority</option>
                                     </select>
                                     <span v-if="errors.includes('Your Priority Selection Is Required')"
                                         class="invalid-feedback">Your Priority Selection Is Required</span>

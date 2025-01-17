@@ -25,7 +25,7 @@
                             <div class="col-md-6 show-content-card-right common-class">
                                 <div class="dashboard-card">
                                     <div class="d-flex justify-content-between align-items-baseline">
-                                        <p class="text">Complete Milestones</p>
+                                        <p class="text">Completed Milestones</p>
                                         <i class="fas fa-project-diagram text"></i>
                                     </div>
                                     <p class="text mb-2"
@@ -38,7 +38,7 @@
                                 style="padding-right: 14px;">
                                 <div class="dashboard-card">
                                     <div class="d-flex justify-content-between align-items-baseline">
-                                        <p class="text">Progress Milestones</p>
+                                        <p class="text">InProgress Milestones</p>
                                         <i class="fas fa-project-diagram text"></i>
                                     </div>
                                     <p class="text mb-2"

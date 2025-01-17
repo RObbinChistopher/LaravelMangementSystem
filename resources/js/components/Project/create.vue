@@ -55,11 +55,11 @@
                                     <select class="form-control form-select" id="licenseType" v-model="from.percentage"
                                         :class="{ 'is-invalid': errors.includes('Your Status Is Required') }">
                                         <option value="" class="text2">Select a Status</option>
-                                        <option value="100" class="text2">Brainstorming &nbsp; 100%</option>
-                                        <option value="70" class="text2">Planning &nbsp; 70%</option>
-                                        <option value="50" class="text2">In Progress &nbsp; 50%</option>
-                                        <option value="10" class="text2">Testing &nbsp; 10%</option>
-                                        <option value="0" class="text2">Finalize &nbsp; 0%</option>
+                                        <option value="100" class="text2">Completing &nbsp; 100%</option>
+                                        <option value="90" class="text2">Testing &nbsp; 90%</option>
+                                        <option value="70" class="text2">In Progress &nbsp; 70%</option>
+                                        <option value="30" class="text2">Planning &nbsp; 30%</option>
+                                        <option value="0" class="text2">Project Initiated &nbsp; 0%</option>
                                     </select>
                                     <span v-if="errors.includes('Your Status Is Required')"
                                         class="invalid-feedback">Your

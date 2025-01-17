@@ -37,7 +37,7 @@
                                     </div>
                                     <input type="file" ref="fileInput" style="display: none"
                                         @change="handleFileUpload" />
-                                    <p class="text mt-2">Accepts images, videos, or 3D models</p>
+                                    <p class="text mt-2">Accepts images only...</p>
                                 </div>
                             </div>
                             <div class="mb-2">
@@ -61,8 +61,7 @@
                             <div class="mb-2">
                                 <label for="businessName" class="form-label text">Phone Number*</label>
                                 <input type="Number" class="form-control" id="businessName" v-model="from.phone"
-                                    v-if="profile"
-                                    placeholder="Phone Number">
+                                    v-if="profile" placeholder="Phone Number">
                             </div>
                         </div>
 
@@ -80,6 +79,7 @@
                 <div class="col-md-4">
                     <form @submit.prevent="updatePasswordUser()" novalidate>
                         <div class="parent-accordion p-3 mb-3" id="parent-accordion">
+                            <label for="businessName" class="form-label heading mb-2" style="font-size: 16px;">Update Password:</label>
                             <div class="mb-2">
                                 <label for="businessName" class="form-label text">Password*</label>
                                 <input type="text" class="form-control" id="businessName" placeholder="Password"

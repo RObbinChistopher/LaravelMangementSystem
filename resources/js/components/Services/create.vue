@@ -45,9 +45,6 @@
                             </div>
                             <div class="mb-2">
                                 <label for="businessName" class="form-label text">Client Phone*</label>
-                                <!-- <input type="text" class="form-control" id="businessName" v-model="from.phone"
-                                    :class="{ 'is-invalid': errors.includes('Client Phone Is Required') }"
-                                    placeholder="Client Phone"> -->
                                 <vue-tel-input v-model="from.phone" mode="international"
                                     class="flag-input"></vue-tel-input>
                                 <span v-if="errors.includes('Client Phone Is Required')" class="invalid-feedback">

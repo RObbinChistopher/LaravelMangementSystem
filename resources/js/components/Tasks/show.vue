@@ -77,9 +77,9 @@
                                         v-model="item.priority" @change="updateTasksStatus(item)"
                                         :disabled="profile.role === 'Team-Member'">
                                         <option disabled value="">Priority</option>
-                                        <option value="urgent">Urgent Priority</option>
-                                        <option value="medium">Medium Priority</option>
-                                        <option value="lower">Lower Priority</option>
+                                        <option value="urgent">Urgent-Priority</option>
+                                        <option value="medium">Medium-Priority</option>
+                                        <option value="lower">Lower-Priority</option>
                                     </select>
                                 </td>
                                 <td class="text2" style="width: 25%;">
