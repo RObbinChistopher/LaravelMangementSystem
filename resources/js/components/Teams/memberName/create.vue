@@ -155,15 +155,10 @@ export default {
     watch: {
         singleTeamMember(newDetail) {
             if (newDetail) {
-                this.from.team_id = newDetail.team_id || '';
+                this.from.team_id = newDetail.team || '';
                 this.from.member_id = newDetail.member_id || '';
                 this.from.project_id = newDetail.project_id || '';
                 this.from.assigned_date = newDetail.assigned_date || '';
-            }
-        },
-        singleTeam(newDetail) {
-            if (newDetail) {
-                this.from.team_id = newDetail.team_name || '';
             }
         },
     },
