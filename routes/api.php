@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\BusinessinforController;
 use App\Http\Controllers\MilestonesController;
 use App\Http\Controllers\NotificationsController;
 use App\Http\Controllers\ProjectsController;
@@ -7,6 +8,8 @@ use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\ServiceDetailsController;
 use App\Http\Controllers\TasksController;
 use App\Http\Controllers\TeamsController;
+use App\Http\Controllers\TicketController;
+use App\Http\Controllers\TutorialController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -27,7 +30,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::group(['middleware' => 'auth:api'], function () {
-    Route::post('create-user', [UserController::class, 'createUser']);
     Route::post('update-user/{id}', [UserController::class, 'UpdateUser']);
     Route::post('filter-role/{id}', [UserController::class, 'FilterOfRole']);
     Route::post('user-search', [UserController::class, 'userSearch']);
@@ -119,12 +121,49 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::get('show-all-team', [TeamsController::class, 'showAllTeam']);
     Route::get('edit-team/{id}', [TeamsController::class, 'editTeam']);
     Route::delete('delete-team/{id}', [TeamsController::class, 'DeleteTeam']);
-
+    
     // team member
     Route::post('store-team-members', [TeamsController::class, 'storeTeamMembrs']);
     Route::post('update-team-membrs/{id}', [TeamsController::class, 'updateTeamMembrs']);
     Route::get('show-team-membrs/{id}', [TeamsController::class, 'showTeamMembrs']);
     Route::get('edit-team-membrs/{id}', [TeamsController::class, 'editTeamMembrs']);
     Route::delete('delete-team-membrs/{id}', [TeamsController::class, 'deleteTeamMembrs']);
+    
+    // support stsyem
+    Route::post('create-ticket', [TicketController::class, 'createTicket']);
+    Route::get('get-ticket/{id}', [TicketController::class, 'getTicketId']);
+    Route::get('show-ticket', [TicketController::class, 'showTicket']);
+    Route::get('show-all-ticket', [TicketController::class, 'allTicket']);
+    // reply
+    Route::post('give-reply', [TicketController::class, 'gaveReply']);
+    Route::get('show-ticket-reply/{id}', [TicketController::class, 'AllTicketRely']);
+    Route::get('ticket-status', [TicketController::class, 'updateTicketStatusForAdmin']);
+    
+    // business information
+
+    
+    // show agent
+    Route::get('show-affiliate', [UserController::class, 'showAgent']);
+    // affiliate-client
+    Route::post('affiliate-client-search', [BusinessinforController::class, 'BusinessInformationSearch']);
+    Route::get('show-affiliate-client', [BusinessinforController::class, 'showAllBusinessInformation']);
+    Route::get('edit-affiliate-client/{id}', [BusinessinforController::class, 'editBusinessInformation']);
+    Route::delete('delete-affiliate-client/{id}', [BusinessinforController::class, 'DeleteBusinessInformation']);
+    Route::post('affiliate-client-payment-status/{id}', [BusinessinforController::class, 'BusinessInformationPaymentStatus']);
+    Route::get('affiliate-payment-range', [BusinessinforController::class, 'clientPaymentRange']);
+    Route::get('business-information-client', [BusinessinforController::class, 'businessinformationforClient']);
+    
+    // user affiliate-client
+    Route::get('show-user-affiliate-client', [BusinessinforController::class, 'UserBusinessInformation']);
+    Route::get('show-business-payment-status', [BusinessinforController::class, 'UserBusinessPayemntstatus']);
+    
+    // tutorial
+    Route::post('create-tutorial', [TutorialController::class, 'videoCreate']);
+    Route::post('update-tutorial/{id}', [TutorialController::class, 'videoUpdate']);
+    Route::get('show-tutorial', [TutorialController::class, 'index']);
+    Route::get('edit-tutorial/{id}', [TutorialController::class, 'editvideoLink']);
+    Route::delete('delete-tutorial/{id}', [TutorialController::class, 'DeletevideoLink']);
 });
 Route::post('login', [UserController::class, 'login']);
+Route::post('create-user', [UserController::class, 'createUser']);
+Route::post('create-business-information/{id}', [BusinessinforController::class, 'createBusinessInfor']);

@@ -11,7 +11,7 @@ const authModule = {
             singleUser: [],
             singleUserLoading: false,
             allUser: [],
-            passwordLoading : false,
+            passwordLoading: false,
             profile: [],
             profileLoading: false
         }
@@ -46,14 +46,14 @@ const authModule = {
         UPDATE_USER_PASSWORD(state, newPassword) {
             state.user.password = newPassword;
         },
-        SET_PASSWORD_LOADING(state, loading){
+        SET_PASSWORD_LOADING(state, loading) {
             state.passwordLoading = loading
         },
-        SET_PROFILE(state, data){
+        SET_PROFILE(state, data) {
             state.profile = data
         },
 
-        SET_PROFILE_LOADING(state, data){
+        SET_PROFILE_LOADING(state, data) {
             state.profileLoading = data
         }
     },
@@ -107,7 +107,7 @@ const authModule = {
                 console.error('Error during delete request:', error);
             }
         },
-        logout({commit}) {
+        logout({ commit }) {
             commit('SET_TOKEN', null);
             commit('SET_USER', null);
             commit('SET_AUTH_STATUS', false);
@@ -194,7 +194,7 @@ const authModule = {
             }
         },
 
-        async fetchloginUser({commit}) {
+        async fetchloginUser({ commit }) {
             let url = config.apiBaseUrl + `login-user`;
             const token = localStorage.getItem('token');
             try {
@@ -210,12 +210,12 @@ const authModule = {
                 console.log('error', error)
             }
         },
-        async updatePassword({commit}, password) {
-            const url =  config.apiBaseUrl + `user-password-update`
+        async updatePassword({ commit }, password) {
+            const url = config.apiBaseUrl + `user-password-update`
             const token = localStorage.getItem('token');
             try {
                 commit('SET_PASSWORD_LOADING', true)
-                  let response  = await axios.post(url, {password: password}, {
+                let response = await axios.post(url, { password: password }, {
                     headers: {
                         'Authorization': `Bearer ${token}`,
                     }
@@ -223,13 +223,29 @@ const authModule = {
                 commit('UPDATE_USER_PASSWORD', response)
                 commit('SET_PASSWORD_LOADING', false)
                 toast.success('Password Update Successfully!');
-            } catch (errors){
+            } catch (errors) {
                 console.log(errors)
                 commit('SET_PASSWORD_LOADING', false)
             }
-          },
+        },
 
-
+        async fetchUsersShowAgent({ commit }, page_number) {
+            let url = config.apiBaseUrl + `show-affiliate?page=${page_number}`;
+            const token = localStorage.getItem('token');
+            try {
+                commit('SET_AUTH_STATUS', true)
+                let response = await axios.get(url, {
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                    }
+                });
+                commit('SET_USER', response.data.data);
+                commit('SET_PAGINATION', response.data.meta);
+                commit('SET_AUTH_STATUS', false)
+            } catch (error) {
+                console.log('error', error)
+            }
+        },
     },
 
     getters: {

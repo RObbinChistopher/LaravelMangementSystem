@@ -2,23 +2,22 @@
     <div class="container">
         <div class="offset-md-1 parent-accordion p-3 login_page" id="parent-accordion">
             <div class="p-3">
-                <img class="logo" src="/Images/logo.png" alt="A picture or an image of Shopify logo for desktop"
-                    title="Visit Shopify website" width="105px" height="auto" />
+                <img class="logo" src="/Images/logo.png" alt="Vise Tech logo" title="Vise Tech Logo" width="105px"
+                    height="auto" />
                 <div class="flex-col gap-0">
                     <p class="heading mb-0" style="font-size: 28px; font-weight:700;">Log in</p>
-                    <p class="text">Continue to ViseTech</p>
                 </div>
                 <form @submit.prevent="onSubmitLoginForm" class="input-container">
                     <p class="mb-0 color-red" v-if="errormessage">{{ errormessage }}</p>
                     <div class="mt-2 mb-2">
-                        <label for="exampleFormControlInput1" class="form-label text mb-0 font-size">Email</label>
-                        <input type="text" class="form-control" id="exampleFormControlInput1" placeholder=""
+                        <label for="exampleFormControlInput1" class="form-label text mb-0 font-size">Email *</label>
+                        <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="Enter Email"
                             v-model="credentials.email" style="box-shadow: none;">
                     </div>
                     <div class="mt-2 mb-2">
-                        <label for="exampleFormControlInput1" class="form-label text mb-0 font-size">Password</label>
-                        <input type="password" class="form-control" id="exampleFormControlInput1" placeholder=""
-                            v-model="credentials.password" style="box-shadow: none">
+                        <label for="exampleFormControlInput1" class="form-label text mb-0 font-size">Password *</label>
+                        <input type="password" class="form-control" id="exampleFormControlInput1"
+                            placeholder="Enter Password" v-model="credentials.password" style="box-shadow: none">
                     </div>
                     <button class="save-btn-login mb-2" :disabled="loading">
                         <span v-if="!loading">Continue with email</span>
@@ -28,11 +27,11 @@
                     <!-- <button class="">
                     <span>Continue with email</span>
                 </button> -->
-                    <!-- <router-link to="/sign-in">
-                    <button class="save-btn-sign">
-                        <span>Sign In</span>
-                    </button>
-                </router-link> -->
+                    <router-link to="/sign-up">
+                        <button class="save-btn-sign">
+                            <span>Don't have an account? Sign Up</span>
+                        </button>
+                    </router-link>
 
                 </form>
             </div>
@@ -41,7 +40,7 @@
 </template>
 
 <script>
-import {mapState, mapActions} from 'vuex';
+import { mapState, mapActions } from 'vuex';
 
 export default {
     name: "Login",
@@ -57,21 +56,22 @@ export default {
     },
 
     computed: {
-        ...mapState('auth', ['isAuthenticated', 'user']),
+        ...mapState('auth', ['isAuthenticated', 'user', 'profile', 'profileLoading']),
     },
     methods: {
         ...mapActions('auth', ['login']),
         async onSubmitLoginForm() {
             this.loading = true;
-            const {success, message, error, user} = await this.login(this.credentials);
+            const { success, message, error, user } = await this.login(this.credentials);
             if (success) {
-                    const redirect = this.$route.query.redirect || '/dashboard'; // Default to dashboard if no redirect
-                    this.$router.push(redirect);
-                    // this.fetchTotalOrder();
+                const role = user?.role || this.profile?.role; // Check role from user first, then fallback to profile
+                const redirect = role === 'Affiliate' ? '/my-dashboard' : '/dashboard';
+                this.$router.push(redirect);
+                // this.fetchTotalOrder();
             } else {
                 if (error.response && error.response.status === 401) {
                     this.errormessage = "Invalid Email OR Password";
-                }else {
+                } else {
                     this.errormessage = error.response ? error.response.data.message : "An unknown error occurred.";
                 }
                 console.log('Error:', error.response ? error.response.data.message : error);

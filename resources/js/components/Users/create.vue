@@ -48,6 +48,7 @@
                                         <option value="Project-Manager" class="text2">Project Manager</option>
                                         <option value="Project-Manager" class="text2">Team Lead</option>
                                         <option value="Team-Member" class="text2">Team Member</option>
+                                        <option value="Affiliate" class="text2">Affiliate</option>
                                     </select>
                                 </div>
                             </div>

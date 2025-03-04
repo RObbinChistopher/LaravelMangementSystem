@@ -1,5 +1,6 @@
 import Login from './components/Auth/Login.vue';
-
+import signIn from './components/Auth/signIn.vue';
+import businessInformation from './components/Business/show.vue'
 // users 
 import users from './components/users/show.vue'
 import createUsers from './components/Users/create.vue'
@@ -28,6 +29,7 @@ import profile from './components/Profile/show.vue'
 
 // dashboard
 import dashboard from './components/Dashboard/show.vue'
+import Clientdashboard from './components/Dashboard/Client.vue'
 
 // invoice
 import invoices from './components/Services/show.vue'
@@ -46,8 +48,31 @@ import TeamCreate from './components/Teams/teamName/create.vue'
 import TeamMemberName from './components/Teams/memberName/members.vue'
 import TeamMemberNameCreate from './components/Teams/memberName/create.vue'
 
+// support Team
+import support from './components/Support/show.vue'
+import supportCreate from './components/Support/create.vue'
+import supportChat from './components/Support/chat.vue'
+import AdminSupport from './components/Support/AdminSupport.vue';
+
+// affiliate
+import affiliate from './components/Affiliate/show.vue';
+import affiliateCreate from './components/Affiliate/create.vue';
+
+// affiliate client
+import affiliateClient from './components/Affiliate/businessClient/show.vue';
+import affiliateClientShow from './components/Affiliate/businessClient/create.vue'
+
+// affiliate client
+import affiliateUser from './components/Affiliate/UserClient/show.vue'
+
+// Tutorial
+import Tutorial from './components/Tutorial/show.vue'
+import TutorialCreate from './components/Tutorial/create.vue'
+
 const routes = [
     { path: '/', component: Login, name: 'Login', meta: { showHeader: false, showSlideBar: false, meta: { requiresAuth: false } } },
+    { path: '/sign-up', component: signIn, name: 'signIn', meta: { showHeader: false, showSlideBar: false, meta: { requiresAuth: false } } },
+    { path: '/business-information/:id', component: businessInformation, name: 'businessInformation', meta: { showHeader: false, showSlideBar: false, meta: { requiresAuth: false } } },
     // users
     { path: '/users', component: users, name: 'users', meta: { requiresAuth: true, requiresRole: 'Admin' } },
     { path: '/create-users', component: createUsers, name: 'createUsers', meta: { requiresAuth: true, requiresRole: 'Admin' } },
@@ -78,6 +103,7 @@ const routes = [
 
     // dashboard
     { path: '/dashboard', component: dashboard, name: 'dashboard', meta: { requiresAuth: true } },
+    { path: '/my-dashboard', component: Clientdashboard, name: 'Clientdashboard', meta: { requiresAuth: true } },
 
 
     // invoice
@@ -90,10 +116,10 @@ const routes = [
     { path: '/service', component: service, name: 'service', meta: { requiresAuth: true, requiresRole: 'Admin' } },
     { path: '/create-service', component: createService, name: 'createService', meta: { requiresAuth: true, requiresRole: 'Admin' } },
     { path: '/edit-service/:id', component: createService, name: 'editService', meta: { requiresAuth: true, requiresRole: 'Admin' } },
-
+    
     { path: '/Unauthorized', component: showUnauthorized, name: 'showUnauthorized', meta: { showHeader: false, showSlideBar: false, requiresAuth: true } },
-
-
+    
+    
     // teams
     { path: '/team-name', component: TeamnName, name: 'TeamnName', meta: { requiresAuth: true, requiresRole: ['Project-Manager', 'Admin'] } },
     { path: '/team-create', component: TeamCreate, name: 'TeamCreate', meta: { requiresAuth: true, requiresRole: ['Project-Manager', 'Admin'] } },
@@ -101,6 +127,29 @@ const routes = [
     { path: '/team-members/:teamId', component: TeamMemberName, name: 'TeamMemberName', meta: { requiresAuth: true, requiresRole: ['Project-Manager', 'Admin'] } },
     { path: '/team-members-create/:teamId', component: TeamMemberNameCreate, name: 'TeamMemberNameCreate', meta: { requiresAuth: true, requiresRole: ['Project-Manager', 'Admin'] } },
     { path: '/team-members-edit/:teamId/:id', component: TeamMemberNameCreate, name: 'TeamMemberNameEdit', meta: { requiresAuth: true, requiresRole: ['Project-Manager', 'Admin'] } },
+    
+    // support
+    { path: '/support', component: support, name: 'support', meta: { requiresAuth: true } },
+    { path: '/admin-support', component: AdminSupport, name: 'AdminSupport', meta: { requiresAuth: true,requiresRole: ['Project-Manager', 'Admin'] } },
+    { path: '/support-create', component: supportCreate, name: 'supportCreate', meta: { requiresAuth: true } },
+    { path: '/support-chat/:id', component: supportChat, name: 'supportChat', meta: { requiresAuth: true } },
+
+
+    // affiliate
+    { path: '/affiliate', component: affiliate, name: 'affiliate', meta: { requiresAuth: true, requiresRole: ['Project-Manager', 'Admin'] } },
+    { path: '/affiliate-edit/:id', component: affiliateCreate, name: 'affiliateEdit', meta: { requiresAuth: true, requiresRole: ['Project-Manager', 'Admin'] } },
+    
+    // affiliate client
+    { path: '/client-affiliate', component: affiliateClient, name: 'affiliateClient', meta: { requiresAuth: true , requiresRole: ['Project-Manager', 'Admin'] } },
+    { path: '/client-affiliate-show/:id', component: affiliateClientShow, name: 'affiliateClientShow', meta: { requiresAuth: true, requiresRole: ['Project-Manager', 'Admin'] } },
+    
+    // user Client
+    { path: '/my-clients', component: affiliateUser, name: 'affiliateUser', meta: { requiresAuth: true } },
+
+    // Tutorial
+    { path: '/tutorial', component: Tutorial, name: 'Tutorial', meta: { requiresAuth: true } },
+    { path: '/tutorial-create', component: TutorialCreate, name: 'TutorialCreate', meta: { requiresAuth: true, requiresRole: ['Project-Manager', 'Admin'] } },
+    { path: '/tutorial-edit/:id', component: TutorialCreate, name: 'TutorialEdit', meta: { requiresAuth: true, requiresRole: ['Project-Manager', 'Admin'] } },
 ];
 
 

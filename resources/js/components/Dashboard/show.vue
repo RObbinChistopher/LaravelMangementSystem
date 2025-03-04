@@ -197,6 +197,7 @@ export default defineComponent({
     computed: {
         ...mapState('service', ['service', 'servicesLoading']),
         ...mapState('dashboard', ['dashboard', 'dashboardLoading']),
+  
     },
     data() {
         return {
@@ -237,6 +238,7 @@ export default defineComponent({
     mounted() {
         this.fetchDashboardCount();
         this.fetchShowAllServices();
+
     },
 });
 </script>

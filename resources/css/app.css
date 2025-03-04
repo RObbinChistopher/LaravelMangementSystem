@@ -9,7 +9,13 @@
     font-weight: 600;
 
 }
-
+.form-select {
+    border: 1px solid #8a8a8a !important;
+    box-shadow: none !important;
+}
+.form-select > option{
+    font-size: 0.9rem;
+}
 body {
     margin: 0;
     padding: 0;
@@ -18,7 +24,6 @@ body {
 
 .is-invalid {
     border-color: #dc3545 !important;
-    background-color: #f8d7da !important;
 }
 
 .invalid-feedback {
@@ -177,4 +182,11 @@ body {
     .main-container {
         margin: auto 2rem !important;
     }
+}
+.payment_status {
+    background-color: #99519e;
+    color: white;
+    padding: 3px 13px;
+    border-radius: 5px;
+    font-size: 14px;
 }

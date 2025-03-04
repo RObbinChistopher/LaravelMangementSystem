@@ -15,6 +15,12 @@
             <div class="row" v-else>
 
                 <div class="col-md-8">
+                    <div class="parent-accordion p-3 mb-3" id="parent-accordion">
+                        <div class="mb-2">
+                            <label for="businessLink" class="form-label text">My Business Information Link</label>
+                            <input type="text" class="form-control" id="businessLink" :value="businessLink" readonly>
+                        </div>
+                    </div>
                     <form @submit.prevent="UpdateProfile()" novalidate>
                         <div class="parent-accordion p-3 mb-3" id="parent-accordion">
                             <div class="mb-2 flex-col gap-0">
@@ -41,13 +47,22 @@
                                 </div>
                             </div>
                             <div class="mb-2">
-                                <label for="businessName" class="form-label text">User Name*</label>
+                                <label for="businessName" class="form-label text">First Name*</label>
                                 <input type="text" class="form-control" id="businessName" v-model="from.name"
                                     v-if="profile" :class="{ 'is-invalid': errors.includes('Your Name Is Required') }"
                                     placeholder="User Name">
                                 <span v-if="errors.includes('Your Name Is Required')" class="invalid-feedback">Your Name
                                     Is
                                     Required</span>
+                            </div>
+                            <div class="mb-2">
+                                <label for="businessName" class="form-label text">Last Name*</label>
+                                <input type="text" class="form-control" id="businessName" v-model="from.last_name"
+                                    v-if="profile"
+                                    :class="{ 'is-invalid': errors.includes('Your Last Name Is Required') }"
+                                    placeholder="Last Name">
+                                <span v-if="errors.includes('Your Last Name Is Required')" class="invalid-feedback">Your
+                                    Last Name Is Required</span>
                             </div>
                             <div class="mb-2">
                                 <label for="businessName" class="form-label text">Email*</label>
@@ -62,6 +77,30 @@
                                 <label for="businessName" class="form-label text">Phone Number*</label>
                                 <input type="Number" class="form-control" id="businessName" v-model="from.phone"
                                     v-if="profile" placeholder="Phone Number">
+                            </div>
+                            <div class="mb-2">
+                                <label for="businessName" class="form-label text">Referral Number</label>
+                                <input type="text" class="form-control" id="businessName" v-model="from.referral_id"
+                                    v-if="profile" placeholder="Referral Number" readonly>
+                            </div>
+                        </div>
+                        <div class="parent-accordion p-3 mb-3" id="parent-accordion">
+                            <label for="businessName" class="form-label heading mb-2" style="font-size: 16px;">Bank
+                                details:</label>
+                            <div class="mb-2">
+                                <label for="businessName" class="form-label text">Bank Name</label>
+                                <input type="text" class="form-control" id="businessName" v-model="from.bank_name"
+                                    v-if="profile" placeholder="Bank Name">
+                            </div>
+                            <div class="mb-2">
+                                <label for="businessName" class="form-label text">Account Title</label>
+                                <input type="text" class="form-control" id="businessName" v-model="from.account_title"
+                                    v-if="profile" placeholder="Account Title">
+                            </div>
+                            <div class="mb-2">
+                                <label for="businessName" class="form-label text">Account Number</label>
+                                <input type="text" class="form-control" id="businessName" v-model="from.account_number"
+                                    v-if="profile" placeholder="Account Number">
                             </div>
                         </div>
 
@@ -79,7 +118,8 @@
                 <div class="col-md-4">
                     <form @submit.prevent="updatePasswordUser()" novalidate>
                         <div class="parent-accordion p-3 mb-3" id="parent-accordion">
-                            <label for="businessName" class="form-label heading mb-2" style="font-size: 16px;">Update Password:</label>
+                            <label for="businessName" class="form-label heading mb-2" style="font-size: 16px;">Update
+                                Password:</label>
                             <div class="mb-2">
                                 <label for="businessName" class="form-label text">Password*</label>
                                 <input type="text" class="form-control" id="businessName" placeholder="Password"
@@ -116,10 +156,16 @@ export default {
             selectedFileName: '',
             errors: [],
             loading: false,
+            businessLink: '',
             from: {
                 name: '',
+                last_name: '',
                 email: '',
                 phone: '',
+                bank_name: '',
+                account_title: '',
+                account_number: '',
+                referral_id: '',
                 image: '',
             }
         }
@@ -155,8 +201,12 @@ export default {
 
             const formData = new FormData();
             formData.append('name', this.from.name);
+            formData.append('last_name', this.from.last_name);
             formData.append('email', this.from.email);
             formData.append('phone', this.from.phone);
+            formData.append('bank_name', this.from.bank_name);
+            formData.append('account_title', this.from.account_title);
+            formData.append('account_number', this.from.account_number);
             if (this.from.image) {
                 formData.append('image', this.from.image);
             }
@@ -195,18 +245,25 @@ export default {
         },
     },
     computed: {
-        ...mapState('auth', ['profile', 'profileLoading', 'passwordLoading'])
+        ...mapState('auth', ['profile', 'profileLoading', 'passwordLoading']),
     },
     watch: {
         profile(newDetail) {
             if (newDetail) {
                 this.from.name = newDetail.name || '';
+                this.from.last_name = newDetail.last_name || '';
                 this.from.email = newDetail.email || '';
                 this.from.phone = newDetail.phone || '';
+                this.from.bank_name = newDetail.bank_name || '';
+                this.from.account_title = newDetail.account_title || '';
+                this.from.account_number = newDetail.account_number || '';
+                this.from.referral_id = newDetail.referral_id || '';
                 this.from.image = newDetail.image || '';
             }
+            if (newDetail && newDetail.id) {
+                this.businessLink = `${window.location.origin}/business-information/${newDetail.id}`;
+            }
         },
-
     },
     mounted() {
         this.fetchloginUser();

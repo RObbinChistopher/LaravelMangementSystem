@@ -37,22 +37,42 @@ class UserController extends Controller
 
     public function allUser(Request $request)
     {
-        $users = User::paginate(10);
+        $users = User::where('position', '!=', 'Affiliate')->paginate(10);
         return userResource::collection($users);
     }
+
 
     public function createUser(Request $request)
     {
         $user = new User();
 
+        // Get first character of first name and last name
+        $firstChar = strtoupper(substr($request->name, 0, 1)); // First letter of first name
+        $lastChar = strtoupper(substr($request->last_name, 0, 1)); // First letter of last name
+
+        // Ensure unique referral ID
+        do {
+            $uniqueId = $firstChar . mt_rand(100000, 999999) . $lastChar;
+        } while (User::where('referral_id', $uniqueId)->exists());
+
+        // Assign user properties
         $user->email = $request->email;
         $user->name = $request->name;
+        $user->last_name = $request->last_name;
+        $user->phone = $request->phone;
         $user->role = $request->role;
         $user->position = $request->position;
-        $user->password =  Hash::make($request->password);
+        $user->referral_id = $uniqueId;
+        $user->password = Hash::make($request->password);
         $user->save();
-        return response()->json(['user' => new userResource($user), 'token' => $user->createToken('MyApp')->accessToken]);
+
+        return response()->json([
+            'user' => new UserResource($user),
+            'token' => $user->createToken('MyApp')->accessToken
+        ]);
     }
+
+
 
     public function EditUser(string $id)
     {
@@ -65,8 +85,11 @@ class UserController extends Controller
 
         $user->email = $request->email;
         $user->name = $request->name;
+        $user->last_name = $request->last_name;
         $user->role = $request->role;
+        $user->phone = $request->phone;
         $user->position = $request->position;
+        $user->password = Hash::make($request->password);
         $user->save();
         return response()->json(['user' => new userResource($user)]);
     }
@@ -94,6 +117,7 @@ class UserController extends Controller
 
         $results = User::where('name', 'like', "%$query%")
             ->orWhere('email', 'like', "%$query%")
+            ->orWhere('referral_id', 'like', "%$query%")
             ->limit(5)
             ->get();
 
@@ -118,23 +142,34 @@ class UserController extends Controller
 
         $image = $this->Updateimage($request, 'image', 'profile', $user->profile);
         $user->name = $request->name;
+        $user->last_name = $request->last_name;
         $user->email = $request->email;
         $user->phone = $request->phone;
+        $user->bank_name = $request->bank_name;
+        $user->account_title = $request->account_title;
+        $user->account_number = $request->account_number;
         $user->profile = $image;
 
         $user->save();
 
         return response()->json(['user' => 'User Profile Update Successfully', $user]);
     }
-    
+
     public function passwordUpdate(Request $request)
     {
         $user = Auth::user();
-        if ($request->password){
+        if ($request->password) {
             $user->password = Hash::make($request->password);
             $user->update();
             return response()->json(['success' => 'Successfully Updated']);
         }
     }
 
+    // affiliate
+
+    public function showAgent()
+    {
+        $user = User::where('position', 'Affiliate')->paginate(10);
+        return userResource::collection($user);
+    }
 }

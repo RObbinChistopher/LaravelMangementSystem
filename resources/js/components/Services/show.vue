@@ -249,13 +249,6 @@ export default {
 </script>
 
 <style scoped>
-.payment_status {
-    background-color: #99519e;
-    color: white;
-    padding: 3px 13px;
-    border-radius: 5px;
-    font-size: 14px;
-}
 
 .service-detail {
     background: #e9edf1;

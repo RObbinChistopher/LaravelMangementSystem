@@ -65,6 +65,9 @@
         .page-link {
             color: #99519e !important;
         }
+        ::-webkit-scrollbar {
+                display: none;
+            }
 
         .flag-input {
             box-shadow: none !important;

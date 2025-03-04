@@ -37,7 +37,7 @@
 
                     <!-- Search Input -->
                     <div class="search-input position-relative">
-                        <input type="text" class="form-control" placeholder="Search by Name or Email" v-model="searchQuery"
+                        <input type="text" class="form-control" placeholder="Search by Name, Email and Referral Number" v-model="searchQuery"
                             @input="debouncedAreaSearchWord" />
                         <i class="fa fa-search position-absolute search-icon"></i>
                     </div>
@@ -58,6 +58,7 @@
                                 <th scope="col">#</th>
                                 <th scope="col">Name</th>
                                 <th scope="col">Email</th>
+                                <th scope="col">Referral Number</th>
                                 <th scope="col">Role</th>
                                 <th scope="col">Action</th>
                             </tr>
@@ -68,6 +69,7 @@
                                 <th scope="row">{{ index + 1 }}</th>
                                 <td class="text2">{{ items.name }}</td>
                                 <td class="text2">{{ items.email }}</td>
+                                <td class="text2">{{ items.referral_id }}</td>
                                 <td class="text2" style="width: 30%;">
                                     <select class="form-select text2 role-selected" aria-label="Default select example"
                                         v-model="items.role" @change="FilterOfUserRole(items)">
@@ -75,6 +77,7 @@
                                         <option value="Admin">Admin</option>
                                         <option value="Project-Manager">Project Manager</option>
                                         <option value="Team-Member">Team Member</option>
+                                        <option value="Affiliate">Affiliate</option>
                                     </select>
                                 </td>
 
@@ -218,7 +221,8 @@ export default {
         filterUsers() {
             return this.user.filter(user =>
                 user.name.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
-                user.email.toLowerCase().includes(this.searchQuery.toLowerCase())
+                user.email.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
+                user.referral_id.toLowerCase().includes(this.searchQuery.toLowerCase()) 
             );
         }
 
